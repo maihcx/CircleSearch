@@ -1,6 +1,7 @@
 <Window x:Class="CircleSearch.Overlay.Views.OverlayWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:utils="clr-namespace:CircleSearch.Overlay.Utils"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -52,15 +53,18 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     IsHitTestVisible="False">
-            <TextBlock Style="{StaticResource HintText}"
-                       Text="✦  Vẽ vòng tròn quanh nội dung bạn muốn tìm kiếm  ✦"
-                       FontSize="20" Margin="0,0,0,12">
+
+            <TextBlock Style="{StaticResource HintText}" FontSize="20" Margin="0,0,0,12">
+                <Run Text="✦  "/>
+                <Run Text="{utils:Localization overlay_draw_circle_title}"/>
+                <Run Text="  ✦"/>
+
                 <TextBlock.Effect>
                     <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Black" Opacity="0.8"/>
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock Style="{StaticResource HintText}"
-                       Text="Nhấn ESC để thoát"
+                       Text="{utils:Localization overlay_press_esc_title}"
                        FontSize="13" Opacity="0.6"/>
         </StackPanel>
 
@@ -133,7 +137,9 @@
                 <Ellipse Width="8" Height="8" Fill="#4FC3F7" x:Name="Dot1" Margin="0,0,6,0"/>
                 <Ellipse Width="8" Height="8" Fill="#4FC3F7" x:Name="Dot2" Margin="0,0,6,0"/>
                 <Ellipse Width="8" Height="8" Fill="#4FC3F7" x:Name="Dot3" Margin="0,0,10,0"/>
-                <TextBlock Text="Đang xử lý..." Foreground="White" VerticalAlignment="Center" FontSize="13"/>
+                <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="13">
+                    <Run Text="{utils:Localization overlay_processing_title}"/><Run Text="..."/>
+                </TextBlock>
             </StackPanel>
         </Border>
     </Grid>

@@ -210,4 +210,52 @@
   <data name="page_settings_auto_hide_nav_summary" xml:space="preserve">
     <value>Enable to auto-hide navigation pane when minimum size is reached</value>
   </data>
+  <data name="page_config_title" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="page_config_summary" xml:space="preserve">
+    <value>Go to Config</value>
+  </data>
+  <data name="page_config_cts_des_title" xml:space="preserve">
+    <value>Circle to Search for Windows</value>
+  </data>
+  <data name="page_config_cts_des_summary" xml:space="preserve">
+    <value>Draw a circle to search for any content on the screen</value>
+  </data>
+  <data name="page_config_cts_hotkey_title" xml:space="preserve">
+    <value>Activation hotkey</value>
+  </data>
+  <data name="page_config_cts_hotkey_context" xml:space="preserve">
+    <value>Currently</value>
+  </data>
+  <data name="page_config_cts_hotkey_set_title" xml:space="preserve">
+    <value>Configure hotkey</value>
+  </data>
+  <data name="page_config_cts_key_title" xml:space="preserve">
+    <value>Keys</value>
+  </data>
+  <data name="page_config_search_engine_title" xml:space="preserve">
+    <value>Search engine</value>
+  </data>
+  <data name="page_config_search_engine_summary" xml:space="preserve">
+    <value>Choose where to display search results</value>
+  </data>
+  <data name="page_config_ocr_title" xml:space="preserve">
+    <value>Optical Character Recognition (OCR)</value>
+  </data>
+  <data name="page_config_ocr_summary" xml:space="preserve">
+    <value>Tesseract OCR — works offline, no internet required.</value>
+  </data>
+  <data name="page_config_ocr_lang_title" xml:space="preserve">
+    <value>OCR language</value>
+  </data>
+  <data name="page_config_overay_try_title" xml:space="preserve">
+    <value>Try overlay</value>
+  </data>
+  <data name="page_config_svc_active_title" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="page_config_svc_inactive_title" xml:space="preserve">
+    <value>Not Activated</value>
+  </data>
 </root>

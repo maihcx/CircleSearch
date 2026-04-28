@@ -81,6 +81,10 @@
                     CoreService.StartApp();
                     CoreService.Send("tray-event", "OnGoHome");
                     break;
+                case "tray_config":
+                    CoreService.StartApp();
+                    CoreService.Send("tray-event", "OnGoConfig");
+                    break;
                 case "tray_settings":
                     CoreService.StartApp();
                     CoreService.Send("tray-event", "OnGoSettings");
@@ -103,6 +107,10 @@
                     Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
                     Header = LocalizationHelper.GetLang("page_home_title"), Tag = "tray_home",
                     Command = TrayExecuteCommand, CommandParameter = "tray_home" },
+                new() {
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowTrendingSettings24 },
+                    Header = LocalizationHelper.GetLang("page_config_title"), Tag = "tray_config",
+                    Command = TrayExecuteCommand, CommandParameter = "tray_config" },
                 new() {
                     Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
                     Header = LocalizationHelper.GetLang("page_settings_title"), Tag = "tray_settings",

@@ -13,7 +13,9 @@
       <ResourceDictionary.MergedDictionaries>
         <ui:ThemesDictionary Theme="Light" />
         <ui:ControlsDictionary />
-
+        
+        <ResourceDictionary Source="Controls/ReferralCard.xaml" />
+        <ResourceDictionary Source="Controls/GalleryNavigationPresenter.xaml" />
         <ResourceDictionary Source="Controls/FormFieldCard.xaml" />
       </ResourceDictionary.MergedDictionaries>
 

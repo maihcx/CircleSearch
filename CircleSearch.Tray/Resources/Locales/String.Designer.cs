@@ -79,6 +79,15 @@ namespace CircleSearch.Tray.Resources.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to page_config_title.
+        /// </summary>
+        internal static string page_config_title {
+            get {
+                return ResourceManager.GetString("page_config_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to page_home_title.
         /// </summary>
         internal static string page_home_title {

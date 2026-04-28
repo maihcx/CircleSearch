@@ -210,4 +210,52 @@
   <data name="page_settings_auto_hide_nav_summary" xml:space="preserve">
     <value>page_settings_auto_hide_nav_summary</value>
   </data>
+  <data name="page_config_title" xml:space="preserve">
+    <value>page_dashboard_title</value>
+  </data>
+  <data name="page_config_summary" xml:space="preserve">
+    <value>page_config_summary</value>
+  </data>
+  <data name="page_config_cts_des_title" xml:space="preserve">
+    <value>page_config_cts_des_title</value>
+  </data>
+  <data name="page_config_cts_des_summary" xml:space="preserve">
+    <value>page_config_cts_des_summary</value>
+  </data>
+  <data name="page_config_cts_hotkey_title" xml:space="preserve">
+    <value>page_config_cts_hotkey_title</value>
+  </data>
+  <data name="page_config_cts_hotkey_context" xml:space="preserve">
+    <value>page_config_cts_hotkey_context</value>
+  </data>
+  <data name="page_config_cts_hotkey_set_title" xml:space="preserve">
+    <value>page_config_cts_hotkey_set_title</value>
+  </data>
+  <data name="page_config_cts_key_title" xml:space="preserve">
+    <value>page_config_cts_key_title</value>
+  </data>
+  <data name="page_config_search_engine_title" xml:space="preserve">
+    <value>page_config_search_tool_title</value>
+  </data>
+  <data name="page_config_search_engine_summary" xml:space="preserve">
+    <value>page_config_search_engine_summary</value>
+  </data>
+  <data name="page_config_ocr_title" xml:space="preserve">
+    <value>page_config_ocr_title</value>
+  </data>
+  <data name="page_config_ocr_summary" xml:space="preserve">
+    <value>page_config_ocr_summary</value>
+  </data>
+  <data name="page_config_ocr_lang_title" xml:space="preserve">
+    <value>page_config_ocr_lang_title</value>
+  </data>
+  <data name="page_config_overay_try_title" xml:space="preserve">
+    <value>page_config_overay_try_title</value>
+  </data>
+  <data name="page_config_svc_active_title" xml:space="preserve">
+    <value>page_config_svc_active_title</value>
+  </data>
+  <data name="page_config_svc_inactive_title" xml:space="preserve">
+    <value>page_config_svc_inactive_title</value>
+  </data>
 </root>

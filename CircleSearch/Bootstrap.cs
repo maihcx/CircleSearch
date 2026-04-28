@@ -91,7 +91,11 @@
                         switch (value)
                         {
                             case "OnGoHome":
-                                NavigationHandle.NavigationService.Navigate(typeof(DashboardPage));
+                                NavigationHandle.NavigationService.Navigate(typeof(HomePage));
+                                break;
+
+                            case "OnGoConfig":
+                                NavigationHandle.NavigationService.Navigate(typeof(ConfigPage));
                                 break;
 
                             case "OnGoSettings":

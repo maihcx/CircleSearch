@@ -1,6 +1,7 @@
 <Window x:Class="CircleSearch.Overlay.Views.ActionPopup"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:utils="clr-namespace:CircleSearch.Overlay.Utils"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -55,7 +56,10 @@
             <Border x:Name="OcrPreviewBorder"
                     Background="#22FFFFFF" CornerRadius="8" Padding="10,8" Margin="4,4,4,2">
                 <StackPanel>
-                    <TextBlock Text="📄 Văn bản nhận dạng:" Foreground="#AAFFFFFF" FontSize="11" Margin="0,0,0,4"/>
+                    <TextBlock Foreground="#AAFFFFFF" FontSize="11" Margin="0,0,0,4">
+                        <Run Text="📄"/>
+                        <Run Text="{utils:Localization action_doc_id_title}"/><Run Text=":"/>
+                    </TextBlock>
                     <TextBox x:Name="OcrPreviewText"
                          Background="Transparent"
                          Foreground="#AAFFFFFF"
@@ -74,39 +78,39 @@
             <!-- Action buttons -->
             <WrapPanel Margin="0,2" MaxWidth="340">
                 <Button x:Name="BtnSearch" Style="{StaticResource ActionBtn}"
-                        ToolTip="Tìm kiếm trên web">
+                        ToolTip="{utils:Localization action_search_tooltip}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔍" FontSize="15" Margin="0,0,6,0"/>
-                        <TextBlock Text="Tìm kiếm"/>
+                        <TextBlock Text="{utils:Localization action_search_title}"/>
                     </StackPanel>
                 </Button>
 
                 <Button x:Name="BtnSearchImage" Style="{StaticResource ActionBtn}"
-                        ToolTip="Tìm kiếm bằng hình ảnh (Google Lens)">
+                        ToolTip="{utils:Localization action_image_search_tooltip}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🖼️" FontSize="15" Margin="0,0,6,0"/>
-                        <TextBlock Text="Tìm ảnh"/>
+                        <TextBlock Text="{utils:Localization action_image_search_title}"/>
                     </StackPanel>
                 </Button>
 
                 <Button x:Name="BtnOcr" Style="{StaticResource ActionBtn}"
-                        ToolTip="Nhận dạng và sao chép văn bản (OCR)">
+                        ToolTip="{utils:Localization action_text_copy_tooltip}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="📋" FontSize="15" Margin="0,0,6,0"/>
-                        <TextBlock Text="Sao chép chữ"/>
+                        <TextBlock Text="{utils:Localization action_text_copy_title}"/>
                     </StackPanel>
                 </Button>
 
                 <Button x:Name="BtnTranslate" Style="{StaticResource ActionBtn}"
-                        ToolTip="Dịch văn bản nhận dạng">
+                        ToolTip="{utils:Localization action_translate_tooltip}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🌐" FontSize="15" Margin="0,0,6,0"/>
-                        <TextBlock Text="Dịch"/>
+                        <TextBlock Text="{utils:Localization action_translate_title}"/>
                     </StackPanel>
                 </Button>
 
                 <Button x:Name="BtnClose" Style="{StaticResource ActionBtn}"
-                        ToolTip="Đóng">
+                        ToolTip="{utils:Localization action_close_tooltip}">
                     <TextBlock Text="✕" FontSize="14"/>
                 </Button>
             </WrapPanel>

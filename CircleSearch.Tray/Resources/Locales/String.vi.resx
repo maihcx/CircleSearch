@@ -123,6 +123,9 @@
   <data name="open_title" xml:space="preserve">
     <value>Mở</value>
   </data>
+  <data name="page_config_title" xml:space="preserve">
+    <value>Cấu hình</value>
+  </data>
   <data name="page_home_title" xml:space="preserve">
     <value>Trang chủ</value>
   </data>

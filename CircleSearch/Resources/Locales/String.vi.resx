@@ -210,4 +210,52 @@
   <data name="page_settings_auto_hide_nav_summary" xml:space="preserve">
     <value>Bật để tự động ẩn khung điều hướng khi đạt kích thước tối thiểu</value>
   </data>
+  <data name="page_config_title" xml:space="preserve">
+    <value>Cấu hình</value>
+  </data>
+  <data name="page_config_summary" xml:space="preserve">
+    <value>Đi đến Trang Cấu Hình</value>
+  </data>
+  <data name="page_config_cts_des_title" xml:space="preserve">
+    <value>Khoanh tròn để tìm kiếm cho Windows</value>
+  </data>
+  <data name="page_config_cts_des_summary" xml:space="preserve">
+    <value>Vẽ vòng tròn để tìm kiếm bất kỳ nội dung nào trên màn hình</value>
+  </data>
+  <data name="page_config_cts_hotkey_title" xml:space="preserve">
+    <value>Phím tắt kích hoạt</value>
+  </data>
+  <data name="page_config_cts_hotkey_context" xml:space="preserve">
+    <value>Hiện tại</value>
+  </data>
+  <data name="page_config_cts_hotkey_set_title" xml:space="preserve">
+    <value>Chọn tổ hợp phím</value>
+  </data>
+  <data name="page_config_cts_key_title" xml:space="preserve">
+    <value>Phím</value>
+  </data>
+  <data name="page_config_search_engine_title" xml:space="preserve">
+    <value>Công cụ tìm kiếm</value>
+  </data>
+  <data name="page_config_search_engine_summary" xml:space="preserve">
+    <value>Chọn nơi hiển thị kết quả tìm kiếm</value>
+  </data>
+  <data name="page_config_ocr_title" xml:space="preserve">
+    <value>Nhận dạng văn bản (OCR)</value>
+  </data>
+  <data name="page_config_ocr_summary" xml:space="preserve">
+    <value>Tesseract OCR — hoạt động offline, không cần internet</value>
+  </data>
+  <data name="page_config_ocr_lang_title" xml:space="preserve">
+    <value>Ngôn ngữ OCR</value>
+  </data>
+  <data name="page_config_overay_try_title" xml:space="preserve">
+    <value>Thử overlay</value>
+  </data>
+  <data name="page_config_svc_active_title" xml:space="preserve">
+    <value>Đang hoạt động</value>
+  </data>
+  <data name="page_config_svc_inactive_title" xml:space="preserve">
+    <value>Chưa khởi động</value>
+  </data>
 </root>
