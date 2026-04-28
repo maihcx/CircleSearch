@@ -56,8 +56,6 @@
             ConfluxService cfsCircleSearchCore = new();
             cfsCircleSearchCore.CreateNoWindow = true;
             cfsCircleSearchCore.Register("CircleSearch.Core.exe", "CircleSearch.MainToCore", "CircleSearch.CoreToMain");
-            cfsCircleSearchCore.StartApp();
-            _ = cfsCircleSearchCore.StartServiceAsync();
 
             IsViewAtBoot = cfsCircleSearchCore.IsAppStarted();
 
@@ -65,6 +63,9 @@
             {
                 IsViewAtBoot = true;
             }
+
+            cfsCircleSearchCore.StartApp();
+            _ = cfsCircleSearchCore.StartServiceAsync();
 
             ConfluxManager.cfsCircleSearchCore = cfsCircleSearchCore;
 
