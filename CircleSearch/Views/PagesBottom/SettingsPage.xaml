@@ -164,7 +164,7 @@
                     Background="Transparent"
                     BorderThickness="0,1,0,0"
                     CornerRadius="0"
-                    NavigateUri="https://ngoctham.com/">
+                    NavigateUri="https://www.facebook.com/MaiXuan.HuynhOR/">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
