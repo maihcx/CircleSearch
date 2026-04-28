@@ -156,4 +156,25 @@
   <data name="action_close_tooltip" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="status_text_recognition_title" xml:space="preserve">
+    <value>Text recognition in progress...</value>
+  </data>
+  <data name="status_text_recognition_failed_title" xml:space="preserve">
+    <value>Text not yet recognized. Searching using images...</value>
+  </data>
+  <data name="status_image_search_title" xml:space="preserve">
+    <value>Preparing to search for photos...</value>
+  </data>
+  <data name="status_image_to_lens_title" xml:space="preserve">
+    <value>The image has been copied — paste it into Google Lens (Ctrl+V)</value>
+  </data>
+  <data name="status_no_text_to_copies_title" xml:space="preserve">
+    <value>No text available to copy</value>
+  </data>
+  <data name="status_text_copied_title" xml:space="preserve">
+    <value>✓ Copied to clipboard!</value>
+  </data>
+  <data name="status_text_recognition_failed_translate_title" xml:space="preserve">
+    <value>Text not yet recognized</value>
+  </data>
 </root>

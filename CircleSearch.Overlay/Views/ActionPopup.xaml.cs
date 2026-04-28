@@ -32,7 +32,7 @@ public partial class ActionPopup : Window
 
     private void RunOcrAsync()
     {
-        ShowStatus("Đang nhận dạng văn bản...");
+        ShowStatus(LanguageBase.GetLangValue("status_text_recognition_title"));
 
         Task.Run<string>(() =>
         {
@@ -43,7 +43,7 @@ public partial class ActionPopup : Window
             _ocrText = t.Result ?? string.Empty;
             HideStatus();
 
-            if (!string.IsNullOrWhiteSpace(_ocrText) && !_ocrText.StartsWith("[Lỗi"))
+            if (!string.IsNullOrWhiteSpace(_ocrText) && !_ocrText.StartsWith("[ERR"))
             {
                 OcrPreviewText.Text = _ocrText;
                 OcrPreviewBorder.Visibility = Visibility.Visible;
@@ -55,7 +55,7 @@ public partial class ActionPopup : Window
     {
         if (string.IsNullOrWhiteSpace(_ocrText))
         {
-            ShowStatus("Chưa nhận dạng được văn bản. Đang tìm bằng ảnh...");
+            ShowStatus(LanguageBase.GetLangValue("status_text_recognition_failed_title"));
             OnSearchImage(sender, e);
             return;
         }
@@ -66,7 +66,7 @@ public partial class ActionPopup : Window
     private void OnSearchImage(object sender, RoutedEventArgs e)
     {
         if (_capturedRegion == null) { Close(); return; }
-        ShowStatus("Đang chuẩn bị tìm kiếm ảnh...");
+        ShowStatus(LanguageBase.GetLangValue("status_image_search_title"));
 
         // Capture reference trước khi vào Task
         var bitmap = _capturedRegion;
@@ -76,19 +76,23 @@ public partial class ActionPopup : Window
             {
                 Clipboard.SetImage(t.Result);
                 OpenBrowser("https://lens.google.com/");
-                ShowStatus("Ảnh đã sao chép — dán vào Google Lens (Ctrl+V)");
+                ShowStatus(LanguageBase.GetLangValue("status_image_to_lens_title"));
             }, TaskScheduler.FromCurrentSynchronizationContext());
+
+        Task.Delay(1000).ContinueWith((task) => {
+            Close();
+        }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private void OnCopyOcr(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(_ocrText))
         {
-            ShowStatus("Chưa có văn bản để sao chép");
+            ShowStatus(LanguageBase.GetLangValue("status_no_text_to_copies_title"));
             return;
         }
         Clipboard.SetText(_ocrText);
-        ShowStatus("✓ Đã sao chép vào clipboard!");
+        ShowStatus(LanguageBase.GetLangValue("status_text_copied_title"));
 
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
         timer.Tick += (_, _) => { timer.Stop(); HideStatus(); };
@@ -99,7 +103,7 @@ public partial class ActionPopup : Window
     {
         if (string.IsNullOrWhiteSpace(_ocrText))
         {
-            ShowStatus("Chưa nhận dạng được văn bản");
+            ShowStatus(LanguageBase.GetLangValue("status_text_recognition_failed_translate_title"));
             return;
         }
         OpenBrowser($"https://translate.google.com/?text={Uri.EscapeDataString(_ocrText)}&op=translate");

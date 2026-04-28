@@ -156,4 +156,25 @@
   <data name="action_close_tooltip" xml:space="preserve">
     <value>Đóng</value>
   </data>
+  <data name="status_text_recognition_title" xml:space="preserve">
+    <value>Đang nhận dạng văn bản...</value>
+  </data>
+  <data name="status_text_recognition_failed_title" xml:space="preserve">
+    <value>Text not yet recognized. Searching using images...</value>
+  </data>
+  <data name="status_image_search_title" xml:space="preserve">
+    <value>Đang chuẩn bị tìm kiếm ảnh...</value>
+  </data>
+  <data name="status_image_to_lens_title" xml:space="preserve">
+    <value>Ảnh đã sao chép — dán vào Google Lens (Ctrl+V)</value>
+  </data>
+  <data name="status_no_text_to_copies_title" xml:space="preserve">
+    <value>Chưa có văn bản để sao chép</value>
+  </data>
+  <data name="status_text_copied_title" xml:space="preserve">
+    <value>✓ Đã sao chép vào clipboard!</value>
+  </data>
+  <data name="status_text_recognition_failed_translate_title" xml:space="preserve">
+    <value>Chưa nhận dạng được văn bản</value>
+  </data>
 </root>

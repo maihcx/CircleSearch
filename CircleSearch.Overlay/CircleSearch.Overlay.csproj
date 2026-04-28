@@ -35,6 +35,7 @@
     <Company>SM SOFT</Company>
     <Authors>SM SOFT</Authors>
     <ApplicationIcon>app.ico</ApplicationIcon>
+    <UseWindowsForms>False</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>

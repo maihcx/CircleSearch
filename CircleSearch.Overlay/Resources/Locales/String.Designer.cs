@@ -176,5 +176,68 @@ namespace CircleSearch.Overlay.Resources.Locales {
                 return ResourceManager.GetString("overlay_processing_title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_image_search_title.
+        /// </summary>
+        internal static string status_image_search_title {
+            get {
+                return ResourceManager.GetString("status_image_search_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_image_to_lens_title.
+        /// </summary>
+        internal static string status_image_to_lens_title {
+            get {
+                return ResourceManager.GetString("status_image_to_lens_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_no_text_to_copies_title.
+        /// </summary>
+        internal static string status_no_text_to_copies_title {
+            get {
+                return ResourceManager.GetString("status_no_text_to_copies_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_text_copied_title.
+        /// </summary>
+        internal static string status_text_copied_title {
+            get {
+                return ResourceManager.GetString("status_text_copied_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_text_recognition_failed_translate_title.
+        /// </summary>
+        internal static string status_text_recognition_failed_title {
+            get {
+                return ResourceManager.GetString("status_text_recognition_failed_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_text_recognition_failed_nofb_title.
+        /// </summary>
+        internal static string status_text_recognition_failed_translate_title {
+            get {
+                return ResourceManager.GetString("status_text_recognition_failed_translate_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to status_text_recognition_title.
+        /// </summary>
+        internal static string status_text_recognition_title {
+            get {
+                return ResourceManager.GetString("status_text_recognition_title", resourceCulture);
+            }
+        }
     }
 }
