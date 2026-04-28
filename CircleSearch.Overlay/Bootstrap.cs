@@ -24,6 +24,7 @@
 
         private void StartOverlayMode()
         {
+            TranslationSource.Instance.CurrentCulture = LanguageBase.GetSetupLanguage();
             Instance.ShutdownMode = ShutdownMode.OnLastWindowClose;
             var window = new OverlayWindow();
             window.Closed += (_, _) => Instance.Shutdown();
