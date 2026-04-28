@@ -21,7 +21,7 @@ CircleSearch.sln
 CircleSearch (Settings UI)
     │  ConfluxService (MainToCore / CoreToMain)
     ▼
-CircleSearch.Core  ◄──────────────────────────────┐
+CircleSearch.Core  ◄───────────────────────────────┐
     │  ConfluxService (CoreToTray / TrayToCore)    │
     ▼                                              │
 CircleSearch.Tray  ────────────────────────────────┘
