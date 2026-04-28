@@ -1,0 +1,17 @@
+﻿global using CircleSearch.CFS;
+global using CircleSearch.Core;
+global using CircleSearch.Core.Utils;
+global using CircleSearch.Core.Runtime;
+global using CircleSearch.Core.Services;
+global using Microsoft.Win32.SafeHandles;
+global using System.Collections.Concurrent;
+global using System.Globalization;
+global using System.Runtime.InteropServices;
+global using System.Text.Json;
+global using System.Net;
+global using System.Net.NetworkInformation;
+global using System.Net.Sockets;
+global using System.Text;
+global using System.Diagnostics;
+global using System.Security.AccessControl;
+global using System.Security.Principal;

@@ -1,0 +1,140 @@
+<Window x:Class="CircleSearch.Overlay.Views.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowState="Maximized"
+        Left="0" Top="0"
+        Cursor="Cross"
+        KeyDown="OnKeyDown">
+
+    <Window.Resources>
+        <!-- Animated shimmer for the circle stroke -->
+        <Style x:Key="HintText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#CCFFFFFF"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="RootGrid">
+        <!-- Full-screen dimming overlay (appears on activation) -->
+        <Rectangle x:Name="DimOverlay"
+                   Fill="#88000000"
+                   IsHitTestVisible="False"
+                   Opacity="0">
+            <Rectangle.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="DimOverlay"
+                                             Storyboard.TargetProperty="Opacity"
+                                             From="0" To="1" Duration="0:0:0.25"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Rectangle.Triggers>
+        </Rectangle>
+
+        <!-- Screenshot background (shown after capture) -->
+        <Image x:Name="ScreenshotImage"
+               Stretch="Fill"
+               IsHitTestVisible="False"
+               Visibility="Collapsed"
+               Opacity="0.92"/>
+
+        <!-- Hint text shown before drawing -->
+        <StackPanel x:Name="HintPanel"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    IsHitTestVisible="False">
+            <TextBlock Style="{StaticResource HintText}"
+                       Text="✦  Vẽ vòng tròn quanh nội dung bạn muốn tìm kiếm  ✦"
+                       FontSize="20" Margin="0,0,0,12">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Black" Opacity="0.8"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock Style="{StaticResource HintText}"
+                       Text="Nhấn ESC để thoát"
+                       FontSize="13" Opacity="0.6"/>
+        </StackPanel>
+
+        <!-- Drawing canvas -->
+        <Canvas x:Name="DrawingCanvas"
+                Background="Transparent"
+                MouseDown="OnMouseDown"
+                MouseMove="OnMouseMove"
+                MouseUp="OnMouseUp">
+
+            <!-- Freehand stroke path -->
+            <Path x:Name="StrokePath"
+                  Stroke="#FFFFFFFF"
+                  StrokeThickness="3"
+                  StrokeLineJoin="Round"
+                  StrokeStartLineCap="Round"
+                  StrokeEndLineCap="Round"
+                  IsHitTestVisible="False"
+                  Opacity="0">
+                <Path.Effect>
+                    <DropShadowEffect BlurRadius="12" ShadowDepth="0"
+                                      Color="#4FC3F7" Opacity="0.9"/>
+                </Path.Effect>
+
+            </Path>
+
+            <!-- Selection highlight rect (animated) -->
+            <Rectangle x:Name="SelectionRect"
+                       Stroke="#FF4FC3F7"
+                       StrokeThickness="2"
+                       StrokeDashArray="6,3"
+                       Fill="#224FC3F7"
+                       RadiusX="6" RadiusY="6"
+                       Visibility="Collapsed"
+                       IsHitTestVisible="False">
+
+                <Rectangle.RenderTransform>
+                    <TranslateTransform/>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+
+            <!-- Magnifier circle that follows cursor -->
+            <Border x:Name="MagnifierBorder"
+                    Width="80" Height="80"
+                    CornerRadius="40"
+                    BorderBrush="#664FC3F7"
+                    BorderThickness="2"
+                    Background="#11FFFFFF"
+                    IsHitTestVisible="False"
+                    Visibility="Collapsed">
+                <Border.RenderTransform>
+                    <TranslateTransform x:Name="MagnifierTranslate"/>
+                </Border.RenderTransform>
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="16" ShadowDepth="0" Color="#4FC3F7" Opacity="0.5"/>
+                </Border.Effect>
+            </Border>
+        </Canvas>
+
+        <!-- Processing indicator (shown while OCR runs in background) -->
+        <Border x:Name="ProcessingPanel"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,40"
+                Background="#CC1E1E2E"
+                CornerRadius="20"
+                Padding="20,10"
+                Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="8" Height="8" Fill="#4FC3F7" x:Name="Dot1" Margin="0,0,6,0"/>
+                <Ellipse Width="8" Height="8" Fill="#4FC3F7" x:Name="Dot2" Margin="0,0,6,0"/>
+                <Ellipse Width="8" Height="8" Fill="#4FC3F7" x:Name="Dot3" Margin="0,0,10,0"/>
+                <TextBlock Text="Đang xử lý..." Foreground="White" VerticalAlignment="Center" FontSize="13"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

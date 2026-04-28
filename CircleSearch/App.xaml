@@ -1,0 +1,26 @@
+﻿<Application
+  x:Class="CircleSearch.App"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:helpers="clr-namespace:CircleSearch.Helpers"
+  DispatcherUnhandledException="OnDispatcherUnhandledException"
+  Exit="OnExit"
+  Startup="OnStartup"
+>
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:ThemesDictionary Theme="Light" />
+        <ui:ControlsDictionary />
+
+        <ResourceDictionary Source="Controls/FormFieldCard.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <helpers:BoolToGreenRedBrush x:Key="BoolToGreenRedBrush" />
+      <helpers:BoolToStatusText x:Key="BoolToStatusText" />
+      <helpers:StringToColorConverter x:Key="StringToColorConverter" />
+      <helpers:BooleanToString x:Key="BooleanToString" />
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

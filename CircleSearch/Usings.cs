@@ -1,0 +1,57 @@
+﻿global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+
+global using System;
+global using System.Text;
+global using System.Text.Json;
+global using System.IO;
+global using System.IO.Pipes;
+global using System.Reflection;
+global using System.Globalization;
+global using System.Diagnostics;
+global using System.Resources;
+global using System.Security.AccessControl;
+global using System.Security.Principal;
+global using System.Security.Cryptography;
+global using System.ComponentModel;
+global using System.Collections.ObjectModel;
+global using System.Runtime.CompilerServices;
+global using System.Runtime.InteropServices;
+global using System.Windows;
+global using System.Windows.Input;
+global using System.Windows.Threading;
+global using System.Windows.Controls.Primitives;
+global using System.Windows.Media;
+global using System.Windows.Media.Animation;
+global using System.Windows.Data;
+global using System.Windows.Markup;
+global using System.Windows.Controls;
+global using System.Windows.Interop;
+
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Win32;
+
+global using Wpf.Ui;
+global using Wpf.Ui.Appearance;
+global using Wpf.Ui.Controls;
+global using Wpf.Ui.DependencyInjection;
+global using Wpf.Ui.Abstractions;
+global using Wpf.Ui.Abstractions.Controls;
+global using ThemeType = Wpf.Ui.Appearance.ApplicationTheme;
+global using IRelayCommand = Wpf.Ui.Input.IRelayCommand;
+global using Watcher = Wpf.Ui.Appearance.SystemThemeWatcher;
+
+global using CircleSearch.CFS;
+global using CircleSearch.Utils;
+global using CircleSearch.Services;
+global using CircleSearch.Resources;
+global using CircleSearch.ViewModels.Windows;
+global using CircleSearch.ViewModels.Pages;
+global using CircleSearch.ViewModels.PagesBottom;
+global using CircleSearch.Views.Windows;
+global using CircleSearch.Views.Pages;
+global using CircleSearch.Views.PagesBottom;
+global using CircleSearch.ControlsLookup;
+global using CircleSearch.Models;
