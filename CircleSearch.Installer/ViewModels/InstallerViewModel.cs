@@ -190,7 +190,7 @@ namespace CircleSearch.Installer.ViewModels
             }
 
             // Init language to system default (prefer vi if available)
-            _selectedLanguage = Languages.FirstOrDefault(l => l.Code == "vi")
+            _selectedLanguage = Languages.FirstOrDefault(l => l.Code == "en")
                 ?? Languages.First();
 
             // Load license text ngay khi khởi tạo
