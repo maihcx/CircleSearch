@@ -115,7 +115,7 @@ namespace CircleSearch.Installer.ViewModels
             set { _startMenuShortcut = value; OnPropertyChanged(); }
         }
 
-        private bool _runAtStartup = false;
+        private bool _runAtStartup = UserDataStore.GetValue<bool>("IsStartAtBoot");
         public bool RunAtStartup
         {
             get => _runAtStartup;
@@ -190,7 +190,7 @@ namespace CircleSearch.Installer.ViewModels
             }
 
             // Init language to system default (prefer vi if available)
-            _selectedLanguage = Languages.FirstOrDefault(l => l.Code == "vi")
+            _selectedLanguage = Languages.FirstOrDefault(l => l.Code == "en")
                 ?? Languages.First();
 
             // Load license text ngay khi khởi tạo
