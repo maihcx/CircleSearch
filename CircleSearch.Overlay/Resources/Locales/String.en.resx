@@ -124,7 +124,7 @@
     <value>Image search</value>
   </data>
   <data name="overlay_draw_circle_title" xml:space="preserve">
-    <value>Draw a circle around the content you want to search for</value>
+    <value>Drag to select the area you want to search</value>
   </data>
   <data name="overlay_press_esc_title" xml:space="preserve">
     <value>Press ESC to exit</value>

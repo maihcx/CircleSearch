@@ -124,7 +124,7 @@
     <value>Tìm ảnh</value>
   </data>
   <data name="overlay_draw_circle_title" xml:space="preserve">
-    <value>Vẽ vòng tròn quanh nội dung bạn muốn tìm kiếm</value>
+    <value>Kéo để chọn vùng bạn muốn tìm kiếm</value>
   </data>
   <data name="overlay_press_esc_title" xml:space="preserve">
     <value>Nhấn ESC để thoát</value>

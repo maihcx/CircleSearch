@@ -115,7 +115,7 @@ namespace CircleSearch.Installer.ViewModels
             set { _startMenuShortcut = value; OnPropertyChanged(); }
         }
 
-        private bool _runAtStartup = false;
+        private bool _runAtStartup = UserDataStore.GetValue<bool>("IsStartAtBoot");
         public bool RunAtStartup
         {
             get => _runAtStartup;

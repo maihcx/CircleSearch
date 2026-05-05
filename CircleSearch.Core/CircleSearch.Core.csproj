@@ -16,6 +16,7 @@
     <SelfContained>false</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <Authors>SM SOFT</Authors>
   </PropertyGroup>
 
   <ItemGroup>
