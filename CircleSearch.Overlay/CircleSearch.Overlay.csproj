@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows7.0</TargetFramework>
@@ -14,8 +14,8 @@
     <Platforms>x64</Platforms>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
 
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>false</SelfContained>
