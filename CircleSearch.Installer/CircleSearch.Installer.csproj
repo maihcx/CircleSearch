@@ -25,6 +25,8 @@
     <AssemblyName>CircleSearch.Installer</AssemblyName>
     <RootNamespace>CircleSearch.Installer</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>SM SOFT</Authors>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,11 +37,13 @@
     <Resource Include="Assets\app.ico" />
     <Resource Include="Assets\app-256.png" />
     <None Include="Resources\Locales\String.Designer.cs" />
-    <!--
-      payload.zip được tạo bởi build.bat trước khi publish.
-      Nó chứa toàn bộ nội dung thư mục publish/ (các file app đã build).
-      Nhúng vào assembly để Installer hoạt động standalone.
-    -->
+    <EmbeddedResource Include="Resources\payload.zip" Condition="Exists('Resources\payload.zip')">
+      <LogicalName>CircleSearch.Installer.Resources.payload.zip</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
+
+  <Target Name="CheckPayloadExists" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)\Resources\payload.zip')" Text="payload.zip not found at Resources\payload.zip. Run build.bat to generate it first." />
+  </Target>
 
 </Project>

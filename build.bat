@@ -91,7 +91,20 @@ if !errorlevel! neq 0 (
     pause
     exit /b !errorlevel!
 )
-echo Payload zip created: %PAYLOAD_ZIP%
+
+REM Kiểm tra payload.zip phải tồn tại và có dung lượng hợp lý (>= 1MB)
+if not exist "%PAYLOAD_ZIP%" (
+    echo [ERROR] payload.zip was not created!
+    pause
+    exit /b 1
+)
+for %%F in ("%PAYLOAD_ZIP%") do set ZIP_SIZE=%%~zF
+if !ZIP_SIZE! LSS 1048576 (
+    echo [ERROR] payload.zip is too small (!ZIP_SIZE! bytes^). Something went wrong!
+    pause
+    exit /b 1
+)
+echo Payload zip created: %PAYLOAD_ZIP% (!ZIP_SIZE! bytes^)
 echo.
 
 REM ── Bước 6: Rebuild Installer với payload.zip thật → installer-output/ ──
@@ -109,6 +122,16 @@ if !errorlevel! neq 0 (
 )
 echo [CircleSearch.Installer] Pass 2 successful!
 
+REM Kiểm tra output cuối phải lớn hơn payload.zip (vì còn có .NET runtime + app)
+for %%F in ("%OUTPUT_DIR%\CircleSearch.Installer.exe") do set EXE_SIZE=%%~zF
+if !EXE_SIZE! LSS !ZIP_SIZE! (
+    echo [ERROR] Output exe (!EXE_SIZE! bytes^) is smaller than payload zip (!ZIP_SIZE! bytes^).
+    echo         payload.zip was likely not embedded correctly!
+    pause
+    exit /b 1
+)
+echo Output size: !EXE_SIZE! bytes - OK
+
 REM ── Bước 7: Dọn dẹp tất cả file tạm ──
 echo.
 echo Cleaning up intermediate files...
@@ -119,5 +142,6 @@ echo.
 echo ============================================
 echo   Done!
 echo   Single-file installer: %OUTPUT_DIR%\CircleSearch.Installer.exe
+echo   Size: !EXE_SIZE! bytes
 echo ============================================
 pause
