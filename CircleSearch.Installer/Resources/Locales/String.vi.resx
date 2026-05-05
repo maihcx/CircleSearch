@@ -258,4 +258,7 @@
   <data name="welcome_title" xml:space="preserve">
     <value>Chào mừng</value>
   </data>
+  <data name="version_title" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
 </root>

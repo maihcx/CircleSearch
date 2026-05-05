@@ -181,10 +181,12 @@
                                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,6"/>
-                            <TextBlock Text="{local:LocalizationExtension welcome_subtitle}"
-                                       FontSize="13"
+                            <TextBlock FontSize="13"
                                        Foreground="{DynamicResource SystemAccentColorPrimaryBrush}"
-                                       Margin="0,0,0,24"/>
+                                       Margin="0,0,0,24">
+                                        <Run Text="{local:LocalizationExtension version_title}" /><Run Text=":"/>
+                                        <Run Text="{Binding AppVersion}" />
+                            </TextBlock>
                             <TextBlock Text="{local:LocalizationExtension welcome_description}"
                                        FontSize="14"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"

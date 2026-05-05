@@ -258,4 +258,7 @@
   <data name="welcome_title" xml:space="preserve">
     <value>welcome_title</value>
   </data>
+  <data name="version_title" xml:space="preserve">
+    <value>version_title</value>
+  </data>
 </root>
