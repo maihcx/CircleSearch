@@ -1,8 +1,9 @@
-using System.IO;
 using CircleSearch.Installer.Services;
 using CircleSearch.Installer.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -65,6 +66,12 @@ namespace CircleSearch.Installer.ViewModels
             InstallerStep.Finish => 6,
             _ => -1,
         };
+
+        private string? _appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+        public string AppVersion { 
+            get => _appVersion ?? "Unknown";
+            set { _appVersion = value; OnPropertyChanged(); }
+        }
 
         // -- Language --
         public ObservableCollection<LanguageItem> Languages { get; } =
