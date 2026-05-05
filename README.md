@@ -12,7 +12,8 @@ CircleSearch.sln
 ├── CircleSearch.Core/         ← Background service: hotkey listener + process orchestrator
 ├── CircleSearch.Tray/         ← System tray app (WPF-UI, persistent in taskbar)
 ├── CircleSearch.Overlay/      ← Fullscreen drawing overlay + action popup (pure WPF)
-└── CircleSearch.CFS/          ← Shared IPC library (ConfluxService — named-pipe messaging)
+├── CircleSearch.CFS/          ← Shared IPC library (ConfluxService — named-pipe messaging)
+└── CircleSearch.Installer/    ← WPF installer (self-contained single-file .exe)
 ```
 
 ### How the processes connect
@@ -72,6 +73,13 @@ A lightweight named-pipe IPC library shared by all projects. Each channel is a p
 - On mouse-up, crops the bounding region of the drawn stroke (DPI-aware) and opens `ActionPopup`.
 - `ActionPopup` runs Tesseract OCR asynchronously via the `Tesseract` NuGet package (`TesseractEngine` → `PixConverter.ToPix` → `page.GetText()`).
 
+### CircleSearch.Installer
+
+- Single-file WPF installer: all app binaries and `CircleSearch.Installer.exe` itself are embedded as a ZIP resource inside the installer executable.
+- On install: extracts the payload to the chosen directory, creates shortcuts, registers with Windows (Add/Remove Programs), and optionally sets up autostart.
+- On uninstall: kills running processes, removes files, shortcuts, startup entry, and registry keys; schedules self-deletion via a `cmd.exe` deferred command.
+- Debugging the installer project in Visual Studio works without a `payload.zip` present. The ZIP is only required (and enforced) when publishing in Release via `build.bat`.
+
 ---
 
 ## Prerequisites
@@ -85,7 +93,7 @@ Download from: https://dotnet.microsoft.com/download/dotnet/10.0
 The Overlay project uses the `Tesseract` NuGet package (v5.2.0) — no manual DLL installation needed. However, you still need to provide the language data files. Place them in a `tessdata/` folder next to `CircleSearch.Overlay.exe`:
 
 ```
-publish/
+<install dir>/
 ├── CircleSearch.Overlay.exe
 └── tessdata/
     ├── eng.traineddata          ← English (required)
@@ -98,30 +106,55 @@ Download `.traineddata` files for any languages you need from the official repos
 
 ## Build
 
-```bash
-# Build and publish all projects to ./publish
+### Release — single-file installer (recommended)
+
+Run `build.bat` from the repository root:
+
+```
 build.bat
-
-# Or build individually with dotnet
-dotnet publish CircleSearch/CircleSearch.csproj        -c Release -r win-x64 -o publish
-dotnet publish CircleSearch.Core/CircleSearch.Core.csproj   -c Release -r win-x64 -o publish
-dotnet publish CircleSearch.Tray/CircleSearch.Tray.csproj   -c Release -r win-x64 -o publish
-dotnet publish CircleSearch.Overlay/CircleSearch.Overlay.csproj -c Release -r win-x64 -o publish
-
-# Or open CircleSearch.sln in Visual Studio 2022+ and Build → Build Solution
 ```
 
-All four executables land in `publish/`. Copy the Tesseract DLLs and `tessdata/` folder there before running.
+The script performs the following steps automatically:
+
+1. Publishes `CircleSearch`, `CircleSearch.Overlay`, `CircleSearch.Tray`, and `CircleSearch.Core` into a temporary `installer-output\publish\` folder.
+2. Creates an empty `payload.zip` placeholder so the installer project compiles on pass 1.
+3. Publishes `CircleSearch.Installer` (pass 1) to obtain the installer executable.
+4. Copies `CircleSearch.Installer.exe` into `publish\` so it is included in the payload.
+5. Zips the entire `publish\` folder into `CircleSearch.Installer\Resources\payload.zip`.
+6. Republishes `CircleSearch.Installer` (pass 2) with the real payload embedded.
+7. Removes all intermediate files (`publish\` folder and `payload.zip`).
+
+Result: a single **`installer-output\CircleSearch.Installer.exe`** that contains every binary needed to install the application.
+
+> **Note:** `payload.zip` is a build-time artifact and is not committed to the repository. It is created and deleted automatically by `build.bat`.
+
+### Debug — Visual Studio
+
+Open `CircleSearch.sln` in Visual Studio 2022 or later and set `CircleSearch.Installer` as the startup project (or any other project you want to debug). Building and running in `Debug` configuration works normally without `payload.zip` present — the payload check is skipped and the embedded resource is omitted in non-Release builds.
 
 ---
 
 ## Running
 
-1. Launch `CircleSearch.Core.exe` — this starts the hotkey listener and spawns `CircleSearch.Tray.exe` automatically.
-2. Optionally launch `CircleSearch.exe` to open the settings UI.
-3. Press the hotkey (default **Ctrl + Win + Z**) to activate the overlay.
+### Via installer
 
-> **Note:** `CircleSearch.exe` can be set to run at Windows startup via the Settings UI. When the **View At Boot** option is disabled, the settings window will not appear on startup — only Core and Tray run silently in the background.
+Run `CircleSearch.Installer.exe`, choose an install directory, and click **Install**. The installer will:
+
+1. Extract all application files to the chosen directory.
+2. Optionally create a Desktop and/or Start Menu shortcut.
+3. Optionally register `CircleSearch.exe` to run at Windows startup.
+4. Register the application in **Add or Remove Programs** for clean uninstallation.
+
+After installation, launch **CircleSearch** from the shortcut or Start Menu. `CircleSearch.exe` is the single entry point — it automatically spawns Core, Tray, and all background services.
+
+### Manually (without installer)
+
+1. Publish all four app projects to the same output folder (or run `build.bat` and copy `publish\` contents).
+2. Place Tesseract `tessdata/` folder next to `CircleSearch.Overlay.exe`.
+3. Launch `CircleSearch.exe` — this is the single entry point. It automatically starts Core and Tray in the background.
+4. Press the hotkey (default **Ctrl + Win + Z**) to activate the overlay.
+
+> **Note:** `CircleSearch.exe` can be set to run at Windows startup via the Settings UI. When the **View At Boot** option is disabled, the settings window will not appear on startup — Core and Tray continue running silently in the background.
 
 ---
 
@@ -159,9 +192,10 @@ Open `CircleSearch.exe` to configure:
 |---|---|---|
 | `eng.traineddata` missing | Tessdata missing | Download from github.com/tesseract-ocr/tessdata and place in `tessdata/` next to the exe |
 | Hotkey not working | Conflicting shortcut | Change the key combination in Settings |
-| Overlay does not appear | Core not running | Make sure `CircleSearch.Core.exe` is running |
+| Overlay does not appear | Core not running | Make sure `CircleSearch.exe` was launched — it spawns Core automatically |
 | Poor OCR results | Region too small or blurry | Draw a larger area; ensure the text is legible on screen |
 | Settings window won't open twice | Single-instance guard | The first instance will be focused automatically |
+| Installer shows wrong size (~5 MB) | `payload.zip` was not embedded | Delete any leftover `payload.zip` and re-run `build.bat` from scratch |
 
 ---
 

@@ -13,7 +13,6 @@
         KeyDown="OnKeyDown">
 
     <Window.Resources>
-        <!-- Animated shimmer for the circle stroke -->
         <Style x:Key="HintText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#CCFFFFFF"/>
             <Setter Property="FontSize" Value="16"/>
@@ -23,7 +22,7 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
-        <!-- Full-screen dimming overlay (appears on activation) -->
+        <!-- Full-screen dimming overlay -->
         <Rectangle x:Name="DimOverlay"
                    Fill="#88000000"
                    IsHitTestVisible="False"
@@ -34,31 +33,22 @@
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="DimOverlay"
                                              Storyboard.TargetProperty="Opacity"
-                                             From="0" To="1" Duration="0:0:0.25"/>
+                                             From="0" To="1" Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </Rectangle.Triggers>
         </Rectangle>
 
-        <!-- Screenshot background (shown after capture) -->
-        <Image x:Name="ScreenshotImage"
-               Stretch="Fill"
-               IsHitTestVisible="False"
-               Visibility="Collapsed"
-               Opacity="0.92"/>
-
-        <!-- Hint text shown before drawing -->
+        <!-- Hint text shown before selecting -->
         <StackPanel x:Name="HintPanel"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     IsHitTestVisible="False">
-
             <TextBlock Style="{StaticResource HintText}" FontSize="20" Margin="0,0,0,12">
                 <Run Text="✦  "/>
                 <Run Text="{utils:Localization overlay_draw_circle_title}"/>
                 <Run Text="  ✦"/>
-
                 <TextBlock.Effect>
                     <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Black" Opacity="0.8"/>
                 </TextBlock.Effect>
@@ -68,63 +58,80 @@
                        FontSize="13" Opacity="0.6"/>
         </StackPanel>
 
-        <!-- Drawing canvas -->
+        <!-- Selection canvas — handles mouse events -->
         <Canvas x:Name="DrawingCanvas"
                 Background="Transparent"
                 MouseDown="OnMouseDown"
                 MouseMove="OnMouseMove"
                 MouseUp="OnMouseUp">
 
-            <!-- Freehand stroke path -->
-            <Path x:Name="StrokePath"
-                  Stroke="#FFFFFFFF"
-                  StrokeThickness="3"
-                  StrokeLineJoin="Round"
-                  StrokeStartLineCap="Round"
-                  StrokeEndLineCap="Round"
-                  IsHitTestVisible="False"
-                  Opacity="0">
-                <Path.Effect>
-                    <DropShadowEffect BlurRadius="12" ShadowDepth="0"
-                                      Color="#4FC3F7" Opacity="0.9"/>
-                </Path.Effect>
+            <!-- Dark mask: Top -->
+            <Rectangle x:Name="MaskTop"
+                       Fill="#88000000"
+                       IsHitTestVisible="False"
+                       Visibility="Collapsed"/>
 
-            </Path>
+            <!-- Dark mask: Bottom -->
+            <Rectangle x:Name="MaskBottom"
+                       Fill="#88000000"
+                       IsHitTestVisible="False"
+                       Visibility="Collapsed"/>
 
-            <!-- Selection highlight rect (animated) -->
+            <!-- Dark mask: Left -->
+            <Rectangle x:Name="MaskLeft"
+                       Fill="#88000000"
+                       IsHitTestVisible="False"
+                       Visibility="Collapsed"/>
+
+            <!-- Dark mask: Right -->
+            <Rectangle x:Name="MaskRight"
+                       Fill="#88000000"
+                       IsHitTestVisible="False"
+                       Visibility="Collapsed"/>
+
+            <!-- The selected region (clear / bright) -->
             <Rectangle x:Name="SelectionRect"
                        Stroke="#FF4FC3F7"
                        StrokeThickness="2"
-                       StrokeDashArray="6,3"
-                       Fill="#224FC3F7"
-                       RadiusX="6" RadiusY="6"
+                       Fill="Transparent"
                        Visibility="Collapsed"
-                       IsHitTestVisible="False">
+                       IsHitTestVisible="False"/>
 
-                <Rectangle.RenderTransform>
-                    <TranslateTransform/>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-
-            <!-- Magnifier circle that follows cursor -->
-            <Border x:Name="MagnifierBorder"
-                    Width="80" Height="80"
-                    CornerRadius="40"
-                    BorderBrush="#664FC3F7"
-                    BorderThickness="2"
-                    Background="#11FFFFFF"
-                    IsHitTestVisible="False"
-                    Visibility="Collapsed">
-                <Border.RenderTransform>
-                    <TranslateTransform x:Name="MagnifierTranslate"/>
-                </Border.RenderTransform>
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="16" ShadowDepth="0" Color="#4FC3F7" Opacity="0.5"/>
-                </Border.Effect>
+            <!-- Size label shown while dragging -->
+            <Border x:Name="SizeLabel"
+                    Background="#CC1E1E2E"
+                    CornerRadius="4"
+                    Padding="8,3"
+                    Visibility="Collapsed"
+                    IsHitTestVisible="False">
+                <TextBlock x:Name="SizeLabelText"
+                           Foreground="White"
+                           FontSize="11"
+                           FontFamily="Consolas"/>
             </Border>
         </Canvas>
 
-        <!-- Processing indicator (shown while OCR runs in background) -->
+        <!-- Crosshair lines that follow cursor before drag -->
+        <Line x:Name="CrosshairH"
+              Stroke="#66FFFFFF" StrokeThickness="1"
+              X1="0" X2="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}}"
+              IsHitTestVisible="False"
+              Visibility="Collapsed">
+            <Line.RenderTransform>
+                <TranslateTransform x:Name="CrosshairHT"/>
+            </Line.RenderTransform>
+        </Line>
+        <Line x:Name="CrosshairV"
+              Stroke="#66FFFFFF" StrokeThickness="1"
+              Y1="0" Y2="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Window}}"
+              IsHitTestVisible="False"
+              Visibility="Collapsed">
+            <Line.RenderTransform>
+                <TranslateTransform x:Name="CrosshairVT"/>
+            </Line.RenderTransform>
+        </Line>
+
+        <!-- Processing indicator -->
         <Border x:Name="ProcessingPanel"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"

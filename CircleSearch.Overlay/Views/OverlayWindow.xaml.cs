@@ -16,12 +16,12 @@ namespace CircleSearch.Overlay.Views;
 public partial class OverlayWindow : Window
 {
     // ── State ──────────────────────────────────────────────────────────────────
-    private bool _isDrawing = false;
-    private readonly List<System.Windows.Point> _strokePoints = new();
+    private bool _isSelecting = false;
+    private System.Windows.Point _dragStart;
     private Bitmap? _fullScreenshot;
     private OverlayConfig _config;
 
-    // DPI scale factors (for multi-monitor / scaling awareness)
+    // DPI scale factors
     private double _dpiScaleX = 1.0;
     private double _dpiScaleY = 1.0;
     private ActionPopup? _currentPopup;
@@ -33,11 +33,9 @@ public partial class OverlayWindow : Window
         _config = AppRuntime.overlayConfig;
         InitializeComponent();
 
-        // Apply accent color from config
         TryApplyAccentColor(_config.AccentColor);
 
         Loaded += OnLoaded;
-        //Deactivated += (_, _) => CloseOverlay();
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -55,9 +53,6 @@ public partial class OverlayWindow : Window
         Height = SystemParameters.VirtualScreenHeight;
 
         _fullScreenshot = await Task.Run(CaptureScreen);
-
-        DrawingCanvas.MouseEnter += (_, _) => MagnifierBorder.Visibility = Visibility.Visible;
-        DrawingCanvas.MouseLeave += (_, _) => MagnifierBorder.Visibility = Visibility.Collapsed;
 
         Focus();
         Activate();
@@ -79,17 +74,20 @@ public partial class OverlayWindow : Window
         _currentPopup = null;
         _isClosingPopupProgrammatically = false;
 
-        _isDrawing = true;
-        _strokePoints.Clear();
-        _strokePoints.Add(e.GetPosition(DrawingCanvas));
-
-        // Fade in the stroke path
-        StrokePath.Opacity = 0;
-        var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(150));
-        StrokePath.BeginAnimation(UIElement.OpacityProperty, fadeIn);
+        _dragStart = e.GetPosition(DrawingCanvas);
+        _isSelecting = true;
 
         HintPanel.Visibility = Visibility.Collapsed;
-        SelectionRect.Visibility = Visibility.Collapsed;
+
+        // Hide crosshairs while dragging
+        CrosshairH.Visibility = Visibility.Collapsed;
+        CrosshairV.Visibility = Visibility.Collapsed;
+
+        // Show dim masks
+        ShowMasks(new Rect(_dragStart, _dragStart));
+
+        SelectionRect.Visibility = Visibility.Visible;
+        SizeLabel.Visibility = Visibility.Visible;
 
         DrawingCanvas.CaptureMouse();
         e.Handled = true;
@@ -99,56 +97,51 @@ public partial class OverlayWindow : Window
     {
         var pos = e.GetPosition(DrawingCanvas);
 
-        // Move magnifier ring with cursor
-        MagnifierTranslate.X = pos.X - 40;
-        MagnifierTranslate.Y = pos.Y - 40;
-
-        if (!_isDrawing) return;
-
-        _strokePoints.Add(pos);
-
-        // Redraw stroke path
-        if (_strokePoints.Count >= 2)
+        if (!_isSelecting)
         {
-            var geometry = CircleHelper.CreateSmoothPath(_strokePoints);
-            StrokePath.Data = geometry;
+            // Show crosshairs before drag starts
+            CrosshairH.Visibility = Visibility.Visible;
+            CrosshairV.Visibility = Visibility.Visible;
+            CrosshairHT.Y = pos.Y;
+            CrosshairVT.X = pos.X;
+            return;
         }
+
+        var rect = GetSelectionRect(pos);
+        UpdateSelectionVisual(rect, pos);
     }
 
     private async void OnMouseUp(object sender, MouseButtonEventArgs e)
     {
-        if (!_isDrawing) return;
-        _isDrawing = false;
+        if (!_isSelecting) return;
+        _isSelecting = false;
         DrawingCanvas.ReleaseMouseCapture();
 
-        _strokePoints.Add(e.GetPosition(DrawingCanvas));
+        var pos = e.GetPosition(DrawingCanvas);
+        var rect = GetSelectionRect(pos);
 
-        if (_strokePoints.Count < 5)
+        // Too small — cancel
+        if (rect.Width < 10 || rect.Height < 10)
         {
-            CloseOverlay();
+            ResetSelectionUI();
+            HintPanel.Visibility = Visibility.Visible;
+            CrosshairH.Visibility = Visibility.Visible;
+            CrosshairV.Visibility = Visibility.Visible;
             return;
         }
 
-        AnimateStrokeComplete();
-
-        var bounds = CircleHelper.GetBoundingRect(_strokePoints, padding: 16);
-
-        ShowSelectionRect(bounds);
-
+        SizeLabel.Visibility = Visibility.Collapsed;
         ProcessingPanel.Visibility = Visibility.Visible;
         AnimateProcessingDots();
 
-        // ✅ Snapshot toàn bộ dữ liệu UI
         double left = this.Left;
         double top = this.Top;
-
-        var safeBounds = new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
         var screenshot = _fullScreenshot;
 
         try
         {
             var result = await Task.Run(() =>
-                CaptureRegion(safeBounds, left, top, screenshot));
+                CaptureRegion(rect, left, top, screenshot));
 
             ProcessingPanel.Visibility = Visibility.Collapsed;
 
@@ -158,13 +151,82 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            ShowActionPopup(result, safeBounds);
+            ShowActionPopup(result, rect);
         }
         catch
         {
             ProcessingPanel.Visibility = Visibility.Collapsed;
             CloseOverlay();
         }
+    }
+
+    // ── Selection Visual ───────────────────────────────────────────────────────
+    private Rect GetSelectionRect(System.Windows.Point current)
+    {
+        double x = Math.Min(_dragStart.X, current.X);
+        double y = Math.Min(_dragStart.Y, current.Y);
+        double w = Math.Abs(current.X - _dragStart.X);
+        double h = Math.Abs(current.Y - _dragStart.Y);
+        return new Rect(x, y, w, h);
+    }
+
+    private void UpdateSelectionVisual(Rect rect, System.Windows.Point cursor)
+    {
+        // Position the clear selection rectangle
+        Canvas.SetLeft(SelectionRect, rect.X);
+        Canvas.SetTop(SelectionRect, rect.Y);
+        SelectionRect.Width = Math.Max(1, rect.Width);
+        SelectionRect.Height = Math.Max(1, rect.Height);
+
+        // Update dark masks around selection
+        ShowMasks(rect);
+
+        // Update size label
+        SizeLabelText.Text = $"{(int)rect.Width} × {(int)rect.Height}";
+
+        // Position size label below the selection, or above if near bottom
+        double labelX = rect.X + rect.Width / 2 - 40;
+        double labelY = rect.Bottom + 6;
+        double canvasH = DrawingCanvas.ActualHeight;
+        if (labelY + 24 > canvasH) labelY = rect.Y - 28;
+        Canvas.SetLeft(SizeLabel, Math.Max(0, labelX));
+        Canvas.SetTop(SizeLabel, Math.Max(0, labelY));
+    }
+
+    private void ShowMasks(Rect sel)
+    {
+        double W = DrawingCanvas.ActualWidth;
+        double H = DrawingCanvas.ActualHeight;
+
+        // Top mask
+        Canvas.SetLeft(MaskTop, 0); Canvas.SetTop(MaskTop, 0);
+        MaskTop.Width = W; MaskTop.Height = Math.Max(0, sel.Y);
+        MaskTop.Visibility = Visibility.Visible;
+
+        // Bottom mask
+        Canvas.SetLeft(MaskBottom, 0); Canvas.SetTop(MaskBottom, sel.Bottom);
+        MaskBottom.Width = W; MaskBottom.Height = Math.Max(0, H - sel.Bottom);
+        MaskBottom.Visibility = Visibility.Visible;
+
+        // Left mask (between top and bottom)
+        Canvas.SetLeft(MaskLeft, 0); Canvas.SetTop(MaskLeft, sel.Y);
+        MaskLeft.Width = Math.Max(0, sel.X); MaskLeft.Height = sel.Height;
+        MaskLeft.Visibility = Visibility.Visible;
+
+        // Right mask
+        Canvas.SetLeft(MaskRight, sel.Right); Canvas.SetTop(MaskRight, sel.Y);
+        MaskRight.Width = Math.Max(0, W - sel.Right); MaskRight.Height = sel.Height;
+        MaskRight.Visibility = Visibility.Visible;
+    }
+
+    private void ResetSelectionUI()
+    {
+        SelectionRect.Visibility = Visibility.Collapsed;
+        SizeLabel.Visibility = Visibility.Collapsed;
+        MaskTop.Visibility = Visibility.Collapsed;
+        MaskBottom.Visibility = Visibility.Collapsed;
+        MaskLeft.Visibility = Visibility.Collapsed;
+        MaskRight.Visibility = Visibility.Collapsed;
     }
 
     // ── Capture & Popup ────────────────────────────────────────────────────────
@@ -202,7 +264,7 @@ public partial class OverlayWindow : Window
         _currentPopup = popup;
 
         double popupX = Left + bounds.X + bounds.Width / 2 - 170;
-        double popupY = Top + bounds.Y + bounds.Height + 12; // ⚠️ fix bug Top
+        double popupY = Top + bounds.Y + bounds.Height + 12;
 
         var screenH = SystemParameters.VirtualScreenHeight + SystemParameters.VirtualScreenTop;
         if (popupY + 260 > screenH)
@@ -226,33 +288,6 @@ public partial class OverlayWindow : Window
     }
 
     // ── Animations ─────────────────────────────────────────────────────────────
-    private void AnimateStrokeComplete()
-    {
-        // Pulse the stroke — glow effect
-        var thicknessAnim = new DoubleAnimationUsingKeyFrames();
-        thicknessAnim.KeyFrames.Add(new LinearDoubleKeyFrame(5, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0))));
-        thicknessAnim.KeyFrames.Add(new LinearDoubleKeyFrame(2, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(300))));
-        StrokePath.BeginAnimation(Shape.StrokeThicknessProperty, thicknessAnim);
-
-        // Briefly flash the stroke to accent color
-        var colorStroke = TryParseColor(_config.AccentColor) ?? Colors.LightBlue;
-        StrokePath.Stroke = new SolidColorBrush(colorStroke);
-    }
-
-    private void ShowSelectionRect(Rect bounds)
-    {
-        Canvas.SetLeft(SelectionRect, bounds.X);
-        Canvas.SetTop(SelectionRect, bounds.Y);
-        SelectionRect.Width = Math.Max(1, bounds.Width);
-        SelectionRect.Height = Math.Max(1, bounds.Height);
-        SelectionRect.Visibility = Visibility.Visible;
-
-        // Animate in
-        SelectionRect.Opacity = 0;
-        SelectionRect.BeginAnimation(UIElement.OpacityProperty,
-            new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200)));
-    }
-
     private System.Windows.Threading.DispatcherTimer? _dotTimer;
     private int _dotPhase = 0;
 
@@ -286,7 +321,6 @@ public partial class OverlayWindow : Window
         _dotTimer?.Stop();
         _fullScreenshot?.Dispose();
 
-        // Fade out
         var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(150));
         fadeOut.Completed += (_, _) =>
         {
@@ -309,13 +343,6 @@ public partial class OverlayWindow : Window
             {
                 var brush = new SolidColorBrush(color.Value);
                 SelectionRect.Stroke = brush;
-                SelectionRect.Fill = new SolidColorBrush(
-                    System.Windows.Media.Color.FromArgb(34,
-                        color.Value.R, color.Value.G, color.Value.B));
-
-                // Apply to glow effect of stroke
-                if (StrokePath.Effect is System.Windows.Media.Effects.DropShadowEffect glow)
-                    glow.Color = color.Value;
             }
         }
         catch { /* non-critical */ }
