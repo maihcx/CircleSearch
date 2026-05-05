@@ -113,6 +113,8 @@ jobs:
 
           copy /y "%OUTPUT_DIR%\CircleSearch.Installer.exe" "%PAYLOAD_DIR%\CircleSearch.Installer.exe"
 
+          if exist "LICENSE" copy /y "LICENSE" "%PAYLOAD_DIR%\LICENSE"
+
           if exist "%PAYLOAD_ZIP%" del /f /q "%PAYLOAD_ZIP%"
           powershell -NoProfile -Command "Compress-Archive -Path '%PAYLOAD_DIR%\*' -DestinationPath '%PAYLOAD_ZIP%' -Force"
 
