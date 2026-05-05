@@ -25,12 +25,25 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="WPF-UI" Version="4.2.1" />
-    <PackageReference Include="WPF-UI.Tray" Version="4.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CircleSearch.CFS\CircleSearch.CFS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Wpf.Ui">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.Abstractions">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.DependencyInjection">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.Tray">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.Tray.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

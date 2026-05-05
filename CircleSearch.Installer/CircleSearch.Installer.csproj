@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>AnyCPU;x64</Platforms>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>CircleSearch.Installer</AssemblyName>
+    <RootNamespace>CircleSearch.Installer</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\app.ico" />
+    <Resource Include="Assets\app-256.png" />
+    <None Include="Resources\Locales\String.Designer.cs" />
+    <!--
+      payload.zip được tạo bởi build.bat trước khi publish.
+      Nó chứa toàn bộ nội dung thư mục publish/ (các file app đã build).
+      Nhúng vào assembly để Installer hoạt động standalone.
+    -->
+  </ItemGroup>
+
+</Project>

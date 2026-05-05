@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleSearch.Core", "Circle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleSearch.Overlay", "CircleSearch.Overlay\CircleSearch.Overlay.csproj", "{AB343D55-F297-E44F-8703-89012686A364}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleSearch.Installer", "CircleSearch.Installer\CircleSearch.Installer.csproj", "{818F3B27-359C-5D89-1D3B-8F85165FAE09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -38,6 +40,10 @@ Global
 		{AB343D55-F297-E44F-8703-89012686A364}.Debug|x64.Build.0 = Debug|x64
 		{AB343D55-F297-E44F-8703-89012686A364}.Release|x64.ActiveCfg = Release|x64
 		{AB343D55-F297-E44F-8703-89012686A364}.Release|x64.Build.0 = Release|x64
+		{818F3B27-359C-5D89-1D3B-8F85165FAE09}.Debug|x64.ActiveCfg = Debug|x64
+		{818F3B27-359C-5D89-1D3B-8F85165FAE09}.Debug|x64.Build.0 = Debug|x64
+		{818F3B27-359C-5D89-1D3B-8F85165FAE09}.Release|x64.ActiveCfg = Release|x64
+		{818F3B27-359C-5D89-1D3B-8F85165FAE09}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

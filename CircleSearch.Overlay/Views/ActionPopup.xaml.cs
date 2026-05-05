@@ -1,9 +1,5 @@
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Windows;
 using System.Windows.Threading;
-using CircleSearch.Overlay.Helpers;
 
 namespace CircleSearch.Overlay.Views;
 

@@ -27,7 +27,7 @@
         <Border Grid.Row="0" Padding="1" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}"/>
 
         <!-- Content -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24,8">
+        <ScrollViewer ui:SmoothScrollBehavior.IsEnabled="True" Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24,8">
             <StackPanel>
 
                 <!-- Header card -->
