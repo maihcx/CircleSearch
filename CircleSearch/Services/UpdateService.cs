@@ -154,7 +154,7 @@ namespace CircleSearch.Services
         {
             if (ConfluxManager.cfsCircleSearchCore.IsAppStarted())
             {
-                ConfluxManager.cfsCircleSearchCore.Send("core-svc-state", "shutdown");
+                ConfluxManager.cfsCircleSearchCore.Send("main-event", "OnAppExit");
             }
 
             if (string.IsNullOrEmpty(DownloadedInstallerPath) || !File.Exists(DownloadedInstallerPath))
