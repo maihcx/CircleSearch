@@ -1,4 +1,5 @@
-﻿using static CircleSearch.Resources.ThemeConfigs;
+﻿using CircleSearch.Services;
+using static CircleSearch.Resources.ThemeConfigs;
 
 namespace CircleSearch.ViewModels.PagesBottom
 {
@@ -8,8 +9,29 @@ namespace CircleSearch.ViewModels.PagesBottom
 
         private static ApplicationThemeManagerService ThemeManagerService = WindowHelper.ThemeManagerService;
 
-        [ObservableProperty]
-        private string _appVersion = String.Empty;
+        private readonly UpdateService _updateService = new();
+        private CancellationTokenSource? _updateCts;
+
+        [ObservableProperty] private string _appVersion = string.Empty;
+
+        // ── Update ─────────────────────────────────────────────────────────
+        [ObservableProperty] private UpdateStatus _updateStatus = UpdateStatus.Idle;
+        [ObservableProperty] private string _updateStatusText = string.Empty;
+        [ObservableProperty] private string _latestVersion = string.Empty;
+        [ObservableProperty] private string _releaseNotes = string.Empty;
+        [ObservableProperty] private double _downloadProgress = 0;
+        [ObservableProperty] private bool _isUpdateAvailable = false;
+        [ObservableProperty] private bool _isReadyToInstall = false;
+        [ObservableProperty] private bool _isChecking = false;
+        [ObservableProperty] private bool _isDownloading = false;
+
+        partial void OnUpdateStatusChanged(UpdateStatus value)
+        {
+            IsChecking      = value == UpdateStatus.Checking;
+            IsDownloading   = value == UpdateStatus.Downloading;
+            IsReadyToInstall = value == UpdateStatus.ReadyToInstall;
+            IsUpdateAvailable = value == UpdateStatus.ReadyToInstall || value == UpdateStatus.Downloading;
+        }
 
         #region Navigation panel auto hide
         [ObservableProperty]
@@ -105,19 +127,124 @@ namespace CircleSearch.ViewModels.PagesBottom
             return Task.CompletedTask;
         }
 
-        public Task OnNavigatedFromAsync() => Task.CompletedTask;
+        public Task OnNavigatedFromAsync()
+        {
+            _updateCts?.Cancel();
+            return Task.CompletedTask;
+        }
 
         private void InitializeViewModel()
         {
-            AppVersion = $"CircleSearch - {GetAssemblyVersion()}";
-
+            var v = UpdateService.GetCurrentVersion();
+            AppVersion = $"CircleSearch - {v.Major}.{v.Minor}.{v.Build}";
+            UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_idle");
             _isInitialized = true;
         }
 
-        private string GetAssemblyVersion()
+
+        [RelayCommand]
+        private async Task CheckForUpdateAsync()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString()
-                ?? String.Empty;
+            _updateCts?.Cancel();
+            _updateCts = new CancellationTokenSource();
+            var ct = _updateCts.Token;
+
+            UpdateStatus     = UpdateStatus.Checking;
+            UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_checking");
+            LatestVersion    = string.Empty;
+            ReleaseNotes     = string.Empty;
+            DownloadProgress = 0;
+
+            try
+            {
+                bool hasUpdate = await _updateService.CheckForUpdateAsync(ct);
+
+                if (ct.IsCancellationRequested) return;
+
+                if (hasUpdate && _updateService.LatestRelease is { } release)
+                {
+                    LatestVersion    = release.TagName;
+                    ReleaseNotes     = release.Body;
+                    UpdateStatus     = UpdateStatus.ReadyToInstall;
+                    UpdateStatusText = string.Format(
+                        LanguageBase.GetLangValue("page_settings_update_available"),
+                        release.TagName);
+                }
+                else
+                {
+                    UpdateStatus     = UpdateStatus.UpToDate;
+                    UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_uptodate");
+                }
+            }
+            catch (OperationCanceledException) { }
+            catch
+            {
+                UpdateStatus     = UpdateStatus.Error;
+                UpdateStatusText = _updateService.ErrorMessage
+                    ?? LanguageBase.GetLangValue("page_settings_update_error");
+            }
+        }
+
+        [RelayCommand]
+        private async Task DownloadAndInstallAsync()
+        {
+            if (!IsUpdateAvailable) return;
+
+            _updateCts?.Cancel();
+            _updateCts = new CancellationTokenSource();
+            var ct = _updateCts.Token;
+
+            UpdateStatus     = UpdateStatus.Downloading;
+            UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_downloading");
+            DownloadProgress = 0;
+
+            var progress = new Progress<double>(p =>
+            {
+                DownloadProgress = p * 100;
+                UpdateStatusText = string.Format(
+                    LanguageBase.GetLangValue("page_settings_update_downloading_progress"),
+                    (int)(p * 100));
+            });
+
+            try
+            {
+                await _updateService.DownloadInstallerAsync(progress, ct);
+
+                if (ct.IsCancellationRequested) return;
+
+                UpdateStatus     = UpdateStatus.ReadyToInstall;
+                UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_ready");
+            }
+            catch (OperationCanceledException) { }
+            catch
+            {
+                UpdateStatus     = UpdateStatus.Error;
+                UpdateStatusText = _updateService.ErrorMessage
+                    ?? LanguageBase.GetLangValue("page_settings_update_error");
+            }
+        }
+
+        [RelayCommand]
+        private void InstallUpdate()
+        {
+            try
+            {
+                _updateService.LaunchInstaller();
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus     = UpdateStatus.Error;
+                UpdateStatusText = ex.Message;
+            }
+        }
+
+        [RelayCommand]
+        private void CancelUpdate()
+        {
+            _updateCts?.Cancel();
+            UpdateStatus     = UpdateStatus.Idle;
+            UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_idle");
+            DownloadProgress = 0;
         }
     }
 }
