@@ -10,6 +10,7 @@ namespace CircleSearch.Services
     {
         Idle,
         Checking,
+        UpdateAvailable,
         Downloading,
         ReadyToInstall,
         UpToDate,
