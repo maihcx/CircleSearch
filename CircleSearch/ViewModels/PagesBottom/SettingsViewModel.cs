@@ -22,6 +22,7 @@ namespace CircleSearch.ViewModels.PagesBottom
         [ObservableProperty] private double _downloadProgress = 0;
         [ObservableProperty] private bool _isUpdateAvailable = false;
         [ObservableProperty] private bool _isReadyToInstall = false;
+        [ObservableProperty] private bool _isDownloadReady = false;
         [ObservableProperty] private bool _isChecking = false;
         [ObservableProperty] private bool _isDownloading = false;
 
@@ -30,7 +31,8 @@ namespace CircleSearch.ViewModels.PagesBottom
             IsChecking      = value == UpdateStatus.Checking;
             IsDownloading   = value == UpdateStatus.Downloading;
             IsReadyToInstall = value == UpdateStatus.ReadyToInstall;
-            IsUpdateAvailable = value == UpdateStatus.ReadyToInstall || value == UpdateStatus.Downloading;
+            IsDownloadReady = value == UpdateStatus.UpdateAvailable;
+            IsUpdateAvailable = value == UpdateStatus.UpdateAvailable || value == UpdateStatus.Downloading || value == UpdateStatus.ReadyToInstall;
         }
 
         #region Navigation panel auto hide
@@ -165,7 +167,7 @@ namespace CircleSearch.ViewModels.PagesBottom
                 {
                     LatestVersion    = release.TagName;
                     ReleaseNotes     = release.Body;
-                    UpdateStatus     = UpdateStatus.ReadyToInstall;
+                    UpdateStatus     = UpdateStatus.UpdateAvailable;
                     UpdateStatusText = string.Format(
                         LanguageBase.GetLangValue("page_settings_update_available"),
                         release.TagName);

@@ -226,14 +226,14 @@
                         Icon="{ui:SymbolIcon ArrowDownload24}"
                         Content="{utils:Localization page_settings_update_download_btn}"
                         Command="{Binding ViewModel.DownloadAndInstallCommand}"
-                        Visibility="{Binding ViewModel.IsReadyToInstall, Converter={StaticResource BoolToCollapsedConverter}}" />
+                        Visibility="{Binding ViewModel.IsDownloadReady, Converter={StaticResource BoolToCollapsedConverter}}" />
                     <ui:Button
                         Margin="8,0,0,0"
                         Appearance="Primary"
                         Icon="{ui:SymbolIcon ArrowCircleUp24}"
                         Content="{utils:Localization page_settings_update_install_btn}"
                         Command="{Binding ViewModel.InstallUpdateCommand}"
-                        Visibility="{Binding ViewModel.IsReadyToInstall, Converter={StaticResource BoolToCollapsedConverter}, ConverterParameter=invert}" />
+                        Visibility="{Binding ViewModel.IsReadyToInstall, Converter={StaticResource BoolToCollapsedConverter}}" />
                     <ui:Button
                         Margin="8,0,0,0"
                         Icon="{ui:SymbolIcon Dismiss24}"
