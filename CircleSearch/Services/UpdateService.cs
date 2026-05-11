@@ -152,6 +152,11 @@ namespace CircleSearch.Services
         /// </summary>
         public void LaunchInstaller()
         {
+            if (ConfluxManager.cfsCircleSearchCore.IsAppStarted())
+            {
+                ConfluxManager.cfsCircleSearchCore.Send("core-svc-state", "shutdown");
+            }
+
             if (string.IsNullOrEmpty(DownloadedInstallerPath) || !File.Exists(DownloadedInstallerPath))
                 throw new FileNotFoundException("Installer not found.", DownloadedInstallerPath);
 
