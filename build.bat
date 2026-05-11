@@ -76,6 +76,10 @@ if exist "LICENSE" (
     copy /y "LICENSE" "%PAYLOAD_DIR%\LICENSE" >nul
     echo Copied LICENSE into payload
 )
+if exist "LICENSE.vi" (
+    copy /y "LICENSE.vi" "%PAYLOAD_DIR%\LICENSE.vi" >nul
+    echo Copied LICENSE.vi into payload
+)
 
 REM ── Bước 5: Zip publish/* → payload.zip (ghi đè bản rỗng) ──
 echo.
