@@ -1,13 +1,3 @@
-## v0.2.1
-
-## 🚀 Changelog
-## 🧹 Maintenance
-
-- Reset assembly versions; improve installer & updates (#19) — @maihcx
-
-
----
-
 ## v0.2.0
 
 ## 🚀 Changelog
