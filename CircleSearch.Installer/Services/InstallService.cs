@@ -41,6 +41,20 @@ namespace CircleSearch.Installer.Services
         {
             ct.ThrowIfCancellationRequested();
 
+            await Task.Run(() =>
+            {
+                foreach (var p in Process.GetProcessesByName("CircleSearch"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+                foreach (var p in Process.GetProcessesByName("CircleSearch.Tray"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+                foreach (var p in Process.GetProcessesByName("CircleSearch.Core"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+                foreach (var p in Process.GetProcessesByName("CircleSearch.Overlay"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+            }, ct);
+
+            await Task.Delay(800, ct);
+
             progress.Report((0.05, Utils.LocalizationHelper.Get("installing_copying")));
             Directory.CreateDirectory(installDir);
 
