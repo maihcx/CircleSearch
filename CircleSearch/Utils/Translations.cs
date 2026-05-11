@@ -90,5 +90,25 @@
                 EnglishName = currentLang.EnglishName,
             };
         }
+
+        public static string GetLangValue(string key, params object[] args)
+        {
+            string? raw = Resources.Locales.String.ResourceManager.GetString(
+                key,
+                TranslationSource.Instance.CurrentCulture
+            );
+
+            if (raw == null)
+            {
+                return key;
+            }
+
+            if (args == null || args.Length == 0)
+            {
+                return raw;
+            }
+
+            return string.Format(raw, args);
+        }
     }
 }
