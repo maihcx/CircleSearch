@@ -1,3 +1,23 @@
+## v0.2.0
+
+## 🚀 Changelog
+## 🚀 Features
+
+- Add update service, converters, and localization (#11) — @maihcx
+
+## 🐛 Bug Fixes
+
+- Send OnAppExit event and handle app shutdown (#17) — @maihcx
+- Shutdown core before launching installer (#15) — @maihcx
+- Add UpdateAvailable state and bindings (#13) — @maihcx
+
+## 🧹 Maintenance
+
+- Add Vietnamese LICENSE and localized loading (#9) — @maihcx
+
+
+---
+
 ## v0.1.0
 
 ## 🚀 Changelog
