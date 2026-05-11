@@ -141,6 +141,8 @@ namespace CircleSearch.ViewModels.PagesBottom
             AppVersion = $"CircleSearch - {v.Major}.{v.Minor}.{v.Build}";
             UpdateStatusText = LanguageBase.GetLangValue("page_settings_update_idle");
             _isInitialized = true;
+
+            _ = CheckForUpdateAsync();
         }
 
 

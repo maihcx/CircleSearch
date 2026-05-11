@@ -67,7 +67,9 @@ namespace CircleSearch.Installer.ViewModels
             _ => -1,
         };
 
-        private string? _appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+        private static System.Version? AssemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        private string? _appVersion = AssemblyName != null ? $"{AssemblyName.Major}.{AssemblyName.Minor}.{AssemblyName.Build}" : null;
+
         public string AppVersion { 
             get => _appVersion ?? "Unknown";
             set { _appVersion = value; OnPropertyChanged(); }
