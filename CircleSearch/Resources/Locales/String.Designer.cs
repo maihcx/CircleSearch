@@ -19,7 +19,7 @@ namespace CircleSearch.Resources.Locales {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class String {
@@ -61,38 +61,191 @@ namespace CircleSearch.Resources.Locales {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to page_cfr_summary.
+        ///   Looks up a localized string similar to clean_title.
         /// </summary>
-        internal static string page_cfr_summary {
+        internal static string clean_title {
             get {
-                return ResourceManager.GetString("page_cfr_summary", resourceCulture);
+                return ResourceManager.GetString("clean_title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to page_cfr_title.
+        ///   Looks up a localized string similar to exit_title.
         /// </summary>
-        internal static string page_cfr_title {
+        internal static string exit_title {
             get {
-                return ResourceManager.GetString("page_cfr_title", resourceCulture);
+                return ResourceManager.GetString("exit_title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to page_demo_summary.
+        ///   Looks up a localized string similar to off_title.
         /// </summary>
-        internal static string page_demo_summary {
+        internal static string off_title {
             get {
-                return ResourceManager.GetString("page_demo_summary", resourceCulture);
+                return ResourceManager.GetString("off_title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to page_demo_title.
+        ///   Looks up a localized string similar to on_title.
         /// </summary>
-        internal static string page_demo_title {
+        internal static string on_title {
             get {
-                return ResourceManager.GetString("page_demo_title", resourceCulture);
+                return ResourceManager.GetString("on_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to open_title.
+        /// </summary>
+        internal static string open_title {
+            get {
+                return ResourceManager.GetString("open_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_cts_des_summary.
+        /// </summary>
+        internal static string page_config_cts_des_summary {
+            get {
+                return ResourceManager.GetString("page_config_cts_des_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_cts_des_title.
+        /// </summary>
+        internal static string page_config_cts_des_title {
+            get {
+                return ResourceManager.GetString("page_config_cts_des_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_cts_hotkey_context.
+        /// </summary>
+        internal static string page_config_cts_hotkey_context {
+            get {
+                return ResourceManager.GetString("page_config_cts_hotkey_context", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_cts_hotkey_set_title.
+        /// </summary>
+        internal static string page_config_cts_hotkey_set_title {
+            get {
+                return ResourceManager.GetString("page_config_cts_hotkey_set_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_cts_hotkey_title.
+        /// </summary>
+        internal static string page_config_cts_hotkey_title {
+            get {
+                return ResourceManager.GetString("page_config_cts_hotkey_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_cts_key_title.
+        /// </summary>
+        internal static string page_config_cts_key_title {
+            get {
+                return ResourceManager.GetString("page_config_cts_key_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_ocr_lang_title.
+        /// </summary>
+        internal static string page_config_ocr_lang_title {
+            get {
+                return ResourceManager.GetString("page_config_ocr_lang_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_ocr_summary.
+        /// </summary>
+        internal static string page_config_ocr_summary {
+            get {
+                return ResourceManager.GetString("page_config_ocr_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_ocr_title.
+        /// </summary>
+        internal static string page_config_ocr_title {
+            get {
+                return ResourceManager.GetString("page_config_ocr_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_overay_try_title.
+        /// </summary>
+        internal static string page_config_overay_try_title {
+            get {
+                return ResourceManager.GetString("page_config_overay_try_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_search_engine_summary.
+        /// </summary>
+        internal static string page_config_search_engine_summary {
+            get {
+                return ResourceManager.GetString("page_config_search_engine_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_search_tool_title.
+        /// </summary>
+        internal static string page_config_search_engine_title {
+            get {
+                return ResourceManager.GetString("page_config_search_engine_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_summary.
+        /// </summary>
+        internal static string page_config_summary {
+            get {
+                return ResourceManager.GetString("page_config_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_svc_active_title.
+        /// </summary>
+        internal static string page_config_svc_active_title {
+            get {
+                return ResourceManager.GetString("page_config_svc_active_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_config_svc_inactive_title.
+        /// </summary>
+        internal static string page_config_svc_inactive_title {
+            get {
+                return ResourceManager.GetString("page_config_svc_inactive_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_dashboard_title.
+        /// </summary>
+        internal static string page_config_title {
+            get {
+                return ResourceManager.GetString("page_config_title", resourceCulture);
             }
         }
         
@@ -111,51 +264,6 @@ namespace CircleSearch.Resources.Locales {
         internal static string page_home_title {
             get {
                 return ResourceManager.GetString("page_home_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to page_oplus_solution_summary.
-        /// </summary>
-        internal static string page_oplus_solution_summary {
-            get {
-                return ResourceManager.GetString("page_oplus_solution_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to page_oplus_solution_title.
-        /// </summary>
-        internal static string page_oplus_solution_title {
-            get {
-                return ResourceManager.GetString("page_oplus_solution_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to page_sconfig_importbtn_title.
-        /// </summary>
-        internal static string page_sconfig_importbtn_title {
-            get {
-                return ResourceManager.GetString("page_sconfig_importbtn_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to page_sconfig_importconf_summary.
-        /// </summary>
-        internal static string page_sconfig_importconf_summary {
-            get {
-                return ResourceManager.GetString("page_sconfig_importconf_summary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to page_sconfig_importconf_title.
-        /// </summary>
-        internal static string page_sconfig_importconf_title {
-            get {
-                return ResourceManager.GetString("page_sconfig_importconf_title", resourceCulture);
             }
         }
         
@@ -183,6 +291,15 @@ namespace CircleSearch.Resources.Locales {
         internal static string page_settings_app_theme_title {
             get {
                 return ResourceManager.GetString("page_settings_app_theme_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_settings_auto_hide_nav_summary.
+        /// </summary>
+        internal static string page_settings_auto_hide_nav_summary {
+            get {
+                return ResourceManager.GetString("page_settings_auto_hide_nav_summary", resourceCulture);
             }
         }
         
@@ -277,6 +394,24 @@ namespace CircleSearch.Resources.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to page_settings_rat_summary.
+        /// </summary>
+        internal static string page_settings_rat_summary {
+            get {
+                return ResourceManager.GetString("page_settings_rat_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_settings_rat_title.
+        /// </summary>
+        internal static string page_settings_rat_title {
+            get {
+                return ResourceManager.GetString("page_settings_rat_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to page_settings_summary.
         /// </summary>
         internal static string page_settings_summary {
@@ -295,20 +430,164 @@ namespace CircleSearch.Resources.Locales {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to page_sys_config_summary.
+        ///   Looks up a localized string similar to Version {0} is available.
         /// </summary>
-        internal static string page_sys_config_summary {
+        internal static string page_settings_update_available {
             get {
-                return ResourceManager.GetString("page_sys_config_summary", resourceCulture);
+                return ResourceManager.GetString("page_settings_update_available", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to page_sys_config_title.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string page_sys_config_title {
+        internal static string page_settings_update_cancel_btn {
             get {
-                return ResourceManager.GetString("page_sys_config_title", resourceCulture);
+                return ResourceManager.GetString("page_settings_update_cancel_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for updates.
+        /// </summary>
+        internal static string page_settings_update_check_btn {
+            get {
+                return ResourceManager.GetString("page_settings_update_check_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking for updates....
+        /// </summary>
+        internal static string page_settings_update_checking {
+            get {
+                return ResourceManager.GetString("page_settings_update_checking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current version.
+        /// </summary>
+        internal static string page_settings_update_current_version_title {
+            get {
+                return ResourceManager.GetString("page_settings_update_current_version_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        internal static string page_settings_update_download_btn {
+            get {
+                return ResourceManager.GetString("page_settings_update_download_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading update....
+        /// </summary>
+        internal static string page_settings_update_downloading {
+            get {
+                return ResourceManager.GetString("page_settings_update_downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading... {0}%.
+        /// </summary>
+        internal static string page_settings_update_downloading_progress {
+            get {
+                return ResourceManager.GetString("page_settings_update_downloading_progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to check for updates.
+        /// </summary>
+        internal static string page_settings_update_error {
+            get {
+                return ResourceManager.GetString("page_settings_update_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to check for a new version.
+        /// </summary>
+        internal static string page_settings_update_idle {
+            get {
+                return ResourceManager.GetString("page_settings_update_idle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install now.
+        /// </summary>
+        internal static string page_settings_update_install_btn {
+            get {
+                return ResourceManager.GetString("page_settings_update_install_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New version available.
+        /// </summary>
+        internal static string page_settings_update_new_version_title {
+            get {
+                return ResourceManager.GetString("page_settings_update_new_version_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download complete — ready to install.
+        /// </summary>
+        internal static string page_settings_update_ready {
+            get {
+                return ResourceManager.GetString("page_settings_update_ready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Update.
+        /// </summary>
+        internal static string page_settings_update_title {
+            get {
+                return ResourceManager.GetString("page_settings_update_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re up to date.
+        /// </summary>
+        internal static string page_settings_update_uptodate {
+            get {
+                return ResourceManager.GetString("page_settings_update_uptodate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_settings_vab_summary.
+        /// </summary>
+        internal static string page_settings_vab_summary {
+            get {
+                return ResourceManager.GetString("page_settings_vab_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to page_settings_vab_title.
+        /// </summary>
+        internal static string page_settings_vab_title {
+            get {
+                return ResourceManager.GetString("page_settings_vab_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to save_title.
+        /// </summary>
+        internal static string save_title {
+            get {
+                return ResourceManager.GetString("save_title", resourceCulture);
             }
         }
         
@@ -318,6 +597,15 @@ namespace CircleSearch.Resources.Locales {
         internal static string sys_need_restart_app_summary {
             get {
                 return ResourceManager.GetString("sys_need_restart_app_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sys_noti_complete_summary.
+        /// </summary>
+        internal static string sys_noti_complete_summary {
+            get {
+                return ResourceManager.GetString("sys_noti_complete_summary", resourceCulture);
             }
         }
         

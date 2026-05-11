@@ -19,6 +19,11 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
     
+    <Page.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToCollapsedConverter" />
+        <helpers:NullOrEmptyToVisibilityConverter x:Key="NullToCollapsedConverter" />
+    </Page.Resources>
+
     <StackPanel>
         <ui:TextBlock
             Margin="0,24,0,8"
@@ -113,6 +118,141 @@
                 DisplayMemberPath="NativeName"
                 MinWidth="170" />
         </controls:FormFieldCard>
+
+        <ui:TextBlock
+            Margin="0,24,0,8"
+            FontTypography="BodyStrong"
+            Text="{utils:Localization page_settings_update_title}" />
+
+        <ui:Card Margin="0,0,0,4" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Version info row -->
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                    <ui:TextBlock
+                        FontTypography="Body"
+                        Text="{utils:Localization page_settings_update_current_version_title}" />
+                    <ui:TextBlock
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Check / Cancel button -->
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <ui:Button
+                        Margin="8,0,0,0"
+                        Icon="{ui:SymbolIcon ArrowClockwise24}"
+                        Content="{utils:Localization page_settings_update_check_btn}"
+                        Command="{Binding ViewModel.CheckForUpdateCommand}"
+                        Visibility="{Binding ViewModel.IsChecking, Converter={StaticResource BoolToCollapsedConverter}, ConverterParameter=invert}" />
+                    <ui:Button
+                        Margin="8,0,0,0"
+                        Icon="{ui:SymbolIcon Dismiss24}"
+                        Content="{utils:Localization page_settings_update_cancel_btn}"
+                        Command="{Binding ViewModel.CancelUpdateCommand}"
+                        Visibility="{Binding ViewModel.IsChecking, Converter={StaticResource BoolToCollapsedConverter}}" />
+                </StackPanel>
+
+                <!-- Status text row -->
+                <ui:TextBlock
+                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    Margin="0,8,0,0"
+                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{Binding ViewModel.UpdateStatusText, Mode=OneWay}"
+                    Visibility="{Binding ViewModel.UpdateStatusText, Converter={StaticResource NullToCollapsedConverter}}" />
+
+                <!-- Download progress row -->
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                      Margin="0,10,0,0"
+                      Visibility="{Binding ViewModel.IsDownloading, Converter={StaticResource BoolToCollapsedConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ProgressBar
+                        Grid.Column="0"
+                        Height="4"
+                        VerticalAlignment="Center"
+                        Minimum="0" Maximum="100"
+                        Value="{Binding ViewModel.DownloadProgress, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding ViewModel.DownloadProgress, StringFormat={}{0:F0}%}" />
+                </Grid>
+            </Grid>
+        </ui:Card>
+
+        <!-- Available update card -->
+        <ui:Card
+            Margin="0,0,0,12"
+            Padding="16"
+            Visibility="{Binding ViewModel.IsUpdateAvailable, Converter={StaticResource BoolToCollapsedConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                    <ui:TextBlock
+                        FontTypography="BodyStrong"
+                        Text="{utils:Localization page_settings_update_new_version_title}" />
+                    <ui:TextBlock
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{Binding ViewModel.LatestVersion, Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Download / Install button -->
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:Button
+                        Margin="8,0,0,0"
+                        Appearance="Primary"
+                        Icon="{ui:SymbolIcon ArrowDownload24}"
+                        Content="{utils:Localization page_settings_update_download_btn}"
+                        Command="{Binding ViewModel.DownloadAndInstallCommand}"
+                        Visibility="{Binding ViewModel.IsReadyToInstall, Converter={StaticResource BoolToCollapsedConverter}}" />
+                    <ui:Button
+                        Margin="8,0,0,0"
+                        Appearance="Primary"
+                        Icon="{ui:SymbolIcon ArrowCircleUp24}"
+                        Content="{utils:Localization page_settings_update_install_btn}"
+                        Command="{Binding ViewModel.InstallUpdateCommand}"
+                        Visibility="{Binding ViewModel.IsReadyToInstall, Converter={StaticResource BoolToCollapsedConverter}, ConverterParameter=invert}" />
+                    <ui:Button
+                        Margin="8,0,0,0"
+                        Icon="{ui:SymbolIcon Dismiss24}"
+                        Content="{utils:Localization page_settings_update_cancel_btn}"
+                        Command="{Binding ViewModel.CancelUpdateCommand}" />
+                </StackPanel>
+
+                <!-- Release notes -->
+                <TextBox
+                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    Margin="0,10,0,0"
+                    MaxHeight="120"
+                    IsReadOnly="True"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto"
+                    Text="{Binding ViewModel.ReleaseNotes, Mode=OneWay}"
+                    Visibility="{Binding ViewModel.ReleaseNotes, Converter={StaticResource NullToCollapsedConverter}}" />
+            </Grid>
+        </ui:Card>
 
         <ui:TextBlock
             Margin="0,24,0,8"
