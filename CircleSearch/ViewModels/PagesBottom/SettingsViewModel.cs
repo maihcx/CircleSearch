@@ -143,6 +143,11 @@ namespace CircleSearch.ViewModels.PagesBottom
             _isInitialized = true;
 
             _ = CheckForUpdateAsync();
+
+            LanguageBase.LanguageChanged += (string lang) =>
+            {
+                _ = CheckForUpdateAsync();
+            };
         }
 
 
