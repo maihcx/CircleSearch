@@ -6,8 +6,8 @@
     xmlns:vm="clr-namespace:CircleSearch.Installer.ViewModels"
     xmlns:local="clr-namespace:CircleSearch.Installer.Utils"
     Title="CircleSearch Installer"
-    Width="770" Height="500"
-    MinWidth="770" MinHeight="500"
+    Width="850" Height="600"
+    MinWidth="850" MinHeight="600"
     WindowStartupLocation="CenterScreen"
     ExtendsContentIntoTitleBar="True"
     WindowBackdropType="Tabbed">
@@ -201,7 +201,7 @@
                             Icon="{ui:SymbolIcon ChevronRight24}"
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Right"
-                            Margin="0,0,0,8"/>
+                            Margin="0,0,0,0"/>
                     </Grid>
                 </DataTemplate>
 
@@ -290,7 +290,7 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
-                                    Margin="0,0,0,8">
+                                    Margin="0,0,0,0">
                             <ui:Button Content="{local:LocalizationExtension path_back}"
                                        Command="{Binding BackFromPathCmd}"
                                        Margin="0,0,8,0"/>
@@ -326,7 +326,7 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
-                                    Margin="0,0,0,8">
+                                    Margin="0,0,0,0">
                             <ui:Button Content="{local:LocalizationExtension options_back}"
                                        Command="{Binding BackFromOptionsCmd}"
                                        Margin="0,0,8,0"/>
