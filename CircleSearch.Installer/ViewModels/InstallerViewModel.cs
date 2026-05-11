@@ -201,7 +201,7 @@ namespace CircleSearch.Installer.ViewModels
                 ?? Languages.First();
 
             // Load license text ngay khi khởi tạo
-            _licenseText = LoadLicenseText();
+            _licenseText = LoadLicenseText(SelectedLanguage?.Code ?? "en");
 
             SelectLanguageCmd = new RelayCommand(OnSelectLanguage,
                 () => SelectedLanguage != null);
@@ -230,15 +230,34 @@ namespace CircleSearch.Installer.ViewModels
         //  Handlers
         // ------------------------------------------------------------------ //
 
-        private static string LoadLicenseText()
+        private static string LoadLicenseText(string languageCode)
         {
+            var asm = System.Reflection.Assembly.GetExecutingAssembly();
+
+            if (!string.IsNullOrEmpty(languageCode) && languageCode != "en")
+            {
+                using Stream? localizedStream = asm.GetManifestResourceStream(
+                    $"CircleSearch.Installer.LICENSE.{languageCode}");
+                if (localizedStream is not null)
+                    using (var reader = new StreamReader(localizedStream))
+                        return reader.ReadToEnd();
+            }
+
+            using Stream? enStream = asm.GetManifestResourceStream(
+                "CircleSearch.Installer.LICENSE");
+            if (enStream is not null)
+                using (var reader = new StreamReader(enStream))
+                    return reader.ReadToEnd();
+
             string installerDir = Path.GetDirectoryName(
-                Environment.ProcessPath ?? System.Reflection.Assembly.GetExecutingAssembly().Location) ?? "";
+                Environment.ProcessPath
+                ?? System.Reflection.Assembly.GetExecutingAssembly().Location) ?? "";
 
             string[] candidates =
             {
+                Path.Combine(installerDir, $"LICENSE.{languageCode}"),
                 Path.Combine(installerDir, "LICENSE"),
-                Path.Combine(installerDir, "publish", "LICENSE"),
+                Path.Combine(installerDir, "..", $"LICENSE.{languageCode}"),
                 Path.Combine(installerDir, "..", "LICENSE"),
             };
 
@@ -277,6 +296,8 @@ SOFTWARE.
             LanguageBase.SetLanguage(SelectedLanguage.Code);
 
             Step = IsUninstallMode ? InstallerStep.UninstallConfirm : InstallerStep.Welcome;
+
+            _licenseText = LoadLicenseText(SelectedLanguage?.Code ?? "en");
         }
 
         private void OnBrowseFolder()
