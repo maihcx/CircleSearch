@@ -1,3 +1,13 @@
+## v0.1.1
+
+## 🚀 Changelog
+## 🧹 Maintenance
+
+- Add Vietnamese LICENSE and localized loading (#9) — @maihcx
+
+
+---
+
 ## v0.1.0
 
 ## 🚀 Changelog
