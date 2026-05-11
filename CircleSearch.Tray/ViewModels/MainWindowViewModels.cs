@@ -59,6 +59,10 @@
                                 UserDataStore.Reload();
                                 AppRuntime.ThemeManagerService.SetApplicationTheme(Enum.Parse<ThemeConfigs.IThemeType>(AppRuntime.ThemeManagerService.GetThemeCBBSelected().Value));
                                 break;
+
+                            case "OnAppExit":
+                                Application.Current.Shutdown();
+                                break;
                         }
                     }
                 });
