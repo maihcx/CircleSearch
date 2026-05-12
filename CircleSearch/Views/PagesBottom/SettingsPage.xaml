@@ -261,7 +261,7 @@
         
         <ui:CardExpander 
             ContentPadding="0" 
-            Icon="{ui:ImageIcon 'pack://application:,,,/Assets/app-256.png', Width=38, Height=35}"
+            Icon="{ui:ImageIcon 'pack://application:,,,/Assets/app-100.png', Width=38, Height=38}"
             Margin="0 0 0 30">
             <ui:CardExpander.Header>
                 <Grid>
