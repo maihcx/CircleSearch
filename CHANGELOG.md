@@ -1,3 +1,14 @@
+## v0.2.2
+
+## 🚀 Changelog
+## 🧹 Maintenance
+
+- Comment out single-file/self-contained publish settings (#24) — @maihcx
+- Refactor installer/uninstaller flow (#23) — @maihcx
+
+
+---
+
 ## v0.2.1
 
 ## 🚀 Changelog
