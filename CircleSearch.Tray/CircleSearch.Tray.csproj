@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\app-16.png" />
     <Resource Include="Assets\app-256.png" />
     <Resource Include="Assets\app.ico">
       <CopyToOutputDirectory></CopyToOutputDirectory>
