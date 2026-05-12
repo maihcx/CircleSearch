@@ -1,3 +1,13 @@
+## v0.2.3
+
+## 🚀 Changelog
+## 🧹 Maintenance
+
+- Move app icons into Assets and update projects (#27) — @maihcx
+
+
+---
+
 ## v0.2.2
 
 ## 🚀 Changelog
