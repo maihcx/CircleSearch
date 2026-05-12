@@ -12,11 +12,11 @@
     <AssemblyVersion>0.2.0.0</AssemblyVersion>
     <FileVersion>0.2.0.0</FileVersion>
 
-	<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<!--<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	<PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>false</SelfContained>
-	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
   </PropertyGroup>
 
   <ItemGroup>
