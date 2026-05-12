@@ -1,3 +1,4 @@
+using CircleSearch.Installer.ViewModels;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
@@ -6,30 +7,13 @@ using System.Reflection;
 
 namespace CircleSearch.Installer.Services
 {
-    /// <summary>
-    /// Chứa toàn bộ logic cài đặt và gỡ cài đặt CircleSearch.
-    /// Payload app được nhúng dưới dạng embedded resource (payload.zip).
-    /// </summary>
     public static class InstallService
     {
-        private const string UninstallRegKey =
-            @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\CircleSearch";
+        private const string UninstallRegKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\CircleSearch";
 
-        /// <summary>
-        /// Tên logical của embedded resource chứa toàn bộ file app.
-        /// Phải khớp với <LogicalName> trong .csproj.
-        /// </summary>
-        private const string PayloadResourceName =
-            "CircleSearch.Installer.Resources.payload.zip";
+        private const string PayloadResourceName = "CircleSearch.Installer.Resources.payload.zip";
 
-        public static string DefaultInstallPath =>
-            Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                "CircleSearch");
-
-        // ------------------------------------------------------------------ //
-        //  INSTALL
-        // ------------------------------------------------------------------ //
+        public static string DefaultInstallPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "CircleSearch");
 
         public static async Task InstallAsync(
             string installDir,
@@ -55,10 +39,17 @@ namespace CircleSearch.Installer.Services
 
             await Task.Delay(800, ct);
 
+            string _uninstallDir = GetInstalledDir() ?? DefaultInstallPath;
+            if (Directory.Exists(_uninstallDir))
+            {
+                progress.Report((0.01, Utils.LocalizationHelper.Get("uninstall_progress_title")));
+                await UninstallAsync(_uninstallDir, null, ct, false);
+
+                await Task.Delay(800, ct);
+            }
+
             progress.Report((0.05, Utils.LocalizationHelper.Get("installing_copying")));
             Directory.CreateDirectory(installDir);
-
-            // Giải nén payload.zip từ embedded resource vào installDir
             await Task.Run(() => ExtractPayload(installDir, progress, ct), ct);
 
             ct.ThrowIfCancellationRequested();
@@ -93,10 +84,6 @@ namespace CircleSearch.Installer.Services
             progress.Report((1.0, Utils.LocalizationHelper.Get("installing_done")));
         }
 
-        /// <summary>
-        /// Giải nén payload.zip (embedded resource) ra installDir.
-        /// Thay thế hoàn toàn CopyFiles() cũ.
-        /// </summary>
         private static void ExtractPayload(
             string installDir,
             IProgress<(double, string)> progress,
@@ -119,14 +106,12 @@ namespace CircleSearch.Installer.Services
 
                 string destPath = Path.GetFullPath(Path.Combine(installDir, entry.FullName));
 
-                // Bảo vệ path traversal
                 if (!destPath.StartsWith(Path.GetFullPath(installDir) + Path.DirectorySeparatorChar,
                         StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 if (string.IsNullOrEmpty(entry.Name))
                 {
-                    // Đây là entry thư mục
                     Directory.CreateDirectory(destPath);
                 }
                 else
@@ -142,18 +127,14 @@ namespace CircleSearch.Installer.Services
             }
         }
 
-        // ------------------------------------------------------------------ //
-        //  UNINSTALL
-        // ------------------------------------------------------------------ //
-
         public static async Task UninstallAsync(
             string installDir,
-            IProgress<(double Percent, string Status)> progress,
-            CancellationToken ct)
+            IProgress<(double Percent, string Status)>? progress,
+            CancellationToken ct,
+            bool isCleanup = true)
         {
             ct.ThrowIfCancellationRequested();
 
-            // 1. Kill các process CircleSearch đang chạy
             await Task.Run(() =>
             {
                 foreach (var p in Process.GetProcessesByName("CircleSearch"))
@@ -168,8 +149,7 @@ namespace CircleSearch.Installer.Services
 
             await Task.Delay(800, ct);
 
-            // 2. Xóa từng file, bỏ qua file của chính installer đang chạy
-            progress.Report((0.1, Utils.LocalizationHelper.Get("uninstall_removing")));
+            progress?.Report((0.1, Utils.LocalizationHelper.Get("uninstall_removing")));
             string installerExePath = Environment.ProcessPath
                 ?? Assembly.GetExecutingAssembly().Location;
             string installerName = Path.GetFileNameWithoutExtension(installerExePath);
@@ -188,7 +168,7 @@ namespace CircleSearch.Installer.Services
 
                         File.Delete(file);
                     }
-                    catch { /* bỏ qua file đang bị lock */ }
+                    catch { }
                 }
 
                 foreach (var dir in Directory.GetDirectories(installDir, "*", SearchOption.AllDirectories)
@@ -204,9 +184,8 @@ namespace CircleSearch.Installer.Services
                 }
             }, ct);
 
-            progress.Report((0.5, Utils.LocalizationHelper.Get("uninstall_removing")));
+            progress?.Report((0.5, Utils.LocalizationHelper.Get("uninstall_removing")));
 
-            // 3. Xóa shortcuts
             await Task.Run(() =>
             {
                 string desktopLnk = Path.Combine(
@@ -223,18 +202,19 @@ namespace CircleSearch.Installer.Services
                 SetStartup(false, "");
             }, ct);
 
-            progress.Report((0.85, Utils.LocalizationHelper.Get("uninstall_removing")));
+            progress?.Report((0.85, Utils.LocalizationHelper.Get("uninstall_removing")));
 
-            // 4. Xóa registry
             await Task.Run(() =>
             {
                 Registry.LocalMachine.DeleteSubKey(UninstallRegKey, throwOnMissingSubKey: false);
             }, ct);
 
-            // 5. Lên lịch xóa thư mục cài đặt còn lại sau khi app thoát
-            ScheduleCleanup(installDir);
+            if (isCleanup)
+            {
+                ScheduleCleanup(installDir);
+            }
 
-            progress.Report((1.0, Utils.LocalizationHelper.Get("uninstall_done_title")));
+            progress?.Report((1.0, Utils.LocalizationHelper.Get("uninstall_done_title")));
         }
 
         private static void ScheduleCleanup(string installDir)
@@ -256,10 +236,6 @@ namespace CircleSearch.Installer.Services
             }
             catch { }
         }
-
-        // ------------------------------------------------------------------ //
-        //  HELPERS
-        // ------------------------------------------------------------------ //
 
         private static void RegisterUninstaller(string installDir)
         {
