@@ -7,6 +7,8 @@ namespace CircleSearch.ViewModels.PagesBottom
     {
         private bool _isInitialized = false;
 
+        public event Action? ScrollToUpdateRequested;
+
         private static ApplicationThemeManagerService ThemeManagerService = WindowHelper.ThemeManagerService;
 
         private readonly UpdateService _updateService = new();
@@ -125,6 +127,8 @@ namespace CircleSearch.ViewModels.PagesBottom
         {
             if (!_isInitialized)
                 InitializeViewModel();
+
+            ScrollToUpdateRequested?.Invoke();
 
             return Task.CompletedTask;
         }

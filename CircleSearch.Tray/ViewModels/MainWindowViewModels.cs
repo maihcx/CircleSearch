@@ -1,4 +1,6 @@
-﻿namespace CircleSearch.Tray.ViewModels
+﻿using System.Diagnostics;
+
+namespace CircleSearch.Tray.ViewModels
 {
     public partial class MainWindowViewModels : ObservableObject
     {
@@ -12,6 +14,8 @@
 
         private ConfluxService MainService;
         private ConfluxService CoreService;
+
+        private string? _updateUrl;
 
         public MainWindowViewModels()
         {
@@ -41,7 +45,8 @@
                             case "OnLanguageChanged":
                                 UserDataStore.Reload();
                                 TranslationSource.Instance.CurrentCulture = LanguageBase.GetSetupLanguage();
-                                createTrayIcons();
+                                // Rebuild menu, giữ lại item update nếu đang có
+                                createTrayIcons(hasUpdate: _updateUrl != null);
                                 break;
 
                             case "OnRadiusChanged":
@@ -70,6 +75,36 @@
 
             _ = CoreService.StartServiceAsync();
             AppRuntime.CoreService = CoreService;
+
+            // Check update sau 5 giây để không làm chậm startup
+            _ = CheckUpdateAfterDelayAsync(TimeSpan.FromSeconds(5));
+        }
+
+        private async Task CheckUpdateAfterDelayAsync(TimeSpan delay)
+        {
+            await Task.Delay(delay);
+
+            var info = await UpdateChecker.CheckAsync();
+            if (info is null) return;
+
+            _updateUrl = info.HtmlUrl;
+
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                // Thêm menu item update vào đầu danh sách
+                createTrayIcons(hasUpdate: true, updateVersion: info.TagName);
+
+                // Hiện balloon notification
+                ShowUpdateBalloon(info.TagName);
+            });
+        }
+
+        private void ShowUpdateBalloon(string version)
+        {
+            if (AppRuntime.MainWindow is Views.MainWindow win)
+            {
+                win.ShowUpdateBalloon(version);
+            }
         }
 
         [RelayCommand]
@@ -93,37 +128,73 @@
                     CoreService.StartApp();
                     CoreService.Send("tray-event", "OnGoSettings");
                     break;
+                case "tray_update":
+                    CoreService.StartApp();
+                    CoreService.Send("tray-event", "OnGoSettings--UPDATE");
+                    break;
                 case "tray_close":
                     Application.Current.Shutdown();
                     break;
             }
         }
 
-        private void createTrayIcons()
+        private void createTrayIcons(bool hasUpdate = false, string? updateVersion = null)
         {
-            TrayMenuItems = new ObservableCollection<MenuItem>
+            var items = new ObservableCollection<MenuItem>();
+
+            if (hasUpdate)
             {
-                new() {
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Open24 },
-                    Header = LocalizationHelper.GetLang("open_title"), Tag = "tray_open",
-                    Command = TrayExecuteCommand, CommandParameter = "tray_open" },
-                new() {
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                    Header = LocalizationHelper.GetLang("page_home_title"), Tag = "tray_home",
-                    Command = TrayExecuteCommand, CommandParameter = "tray_home" },
-                new() {
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowTrendingSettings24 },
-                    Header = LocalizationHelper.GetLang("page_config_title"), Tag = "tray_config",
-                    Command = TrayExecuteCommand, CommandParameter = "tray_config" },
-                new() {
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
-                    Header = LocalizationHelper.GetLang("page_settings_title"), Tag = "tray_settings",
-                    Command = TrayExecuteCommand, CommandParameter = "tray_settings" },
-                new() {
-                    Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowExit20 },
-                    Header = LocalizationHelper.GetLang("exit_title"), Tag = "tray_close",
-                    Command = TrayExecuteCommand, CommandParameter = "tray_close" }
-            };
+                string label = string.IsNullOrEmpty(updateVersion)
+                    ? LocalizationHelper.GetLang("update_available_title")
+                    : $"{LocalizationHelper.GetLang("update_available_title")} ({updateVersion})";
+
+                items.Add(new MenuItem
+                {
+                    Icon    = new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                    Header  = label,
+                    Tag     = "tray_update",
+                    Command = TrayExecuteCommand,
+                    CommandParameter = "tray_update",
+                    // Tô màu nổi bật
+                    Foreground = new System.Windows.Media.SolidColorBrush(
+                        System.Windows.Media.Color.FromRgb(0, 150, 255)),
+                });
+
+                //items.Add(new Separator());
+            }
+
+            items.Add(new MenuItem
+            {
+                Icon    = new SymbolIcon { Symbol = SymbolRegular.Open24 },
+                Header  = LocalizationHelper.GetLang("open_title"), Tag = "tray_open",
+                Command = TrayExecuteCommand, CommandParameter = "tray_open"
+            });
+            items.Add(new MenuItem
+            {
+                Icon    = new SymbolIcon { Symbol = SymbolRegular.Home24 },
+                Header  = LocalizationHelper.GetLang("page_home_title"), Tag = "tray_home",
+                Command = TrayExecuteCommand, CommandParameter = "tray_home"
+            });
+            items.Add(new MenuItem
+            {
+                Icon    = new SymbolIcon { Symbol = SymbolRegular.ArrowTrendingSettings24 },
+                Header  = LocalizationHelper.GetLang("page_config_title"), Tag = "tray_config",
+                Command = TrayExecuteCommand, CommandParameter = "tray_config"
+            });
+            items.Add(new MenuItem
+            {
+                Icon    = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
+                Header  = LocalizationHelper.GetLang("page_settings_title"), Tag = "tray_settings",
+                Command = TrayExecuteCommand, CommandParameter = "tray_settings"
+            });
+            items.Add(new MenuItem
+            {
+                Icon    = new SymbolIcon { Symbol = SymbolRegular.ArrowExit20 },
+                Header  = LocalizationHelper.GetLang("exit_title"), Tag = "tray_close",
+                Command = TrayExecuteCommand, CommandParameter = "tray_close"
+            });
+
+            TrayMenuItems = items;
         }
     }
 }

@@ -18,8 +18,9 @@
         Visibility="Hidden">
     <Grid>
         <tray:NotifyIcon
+            x:Name="TrayIcon"
             FocusOnLeftClick="False"
-            Icon="pack://application:,,,/Assets/app.ico"
+            Icon="pack://application:,,,/Assets/app-16.png"
             MenuOnRightClick="True"
             LeftClick="NotifyIcon_LeftClick"
             TooltipText="{Binding ViewModel.ApplicationTitle, Mode=OneWay}">

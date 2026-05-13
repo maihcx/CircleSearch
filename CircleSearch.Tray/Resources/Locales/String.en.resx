@@ -132,4 +132,10 @@
   <data name="page_settings_title" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="update_available_title" xml:space="preserve">
+    <value>New update available</value>
+  </data>
+  <data name="update_balloon_body" xml:space="preserve">
+    <value>is ready. Click to download.</value>
+  </data>
 </root>
