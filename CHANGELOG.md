@@ -1,3 +1,21 @@
+## v0.3.0
+
+## 🚀 Changelog
+## 🚀 Features
+
+- Add update checker and tray update UI (#31) — @maihcx
+
+## ⚡ Performance
+
+- Add 16px tray icon and use it in UI (#29) — @maihcx
+
+## 🧹 Maintenance
+
+- Update WPF-UI.LIB assemblies (#30) — @maihcx
+
+
+---
+
 ## v0.2.3
 
 ## 🚀 Changelog
