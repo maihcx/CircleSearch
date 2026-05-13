@@ -18,6 +18,7 @@
         Visibility="Hidden">
     <Grid>
         <tray:NotifyIcon
+            x:Name="TrayIcon"
             FocusOnLeftClick="False"
             Icon="pack://application:,,,/Assets/app-16.png"
             MenuOnRightClick="True"

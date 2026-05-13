@@ -104,5 +104,23 @@ namespace CircleSearch.Tray.Resources.Locales {
                 return ResourceManager.GetString("page_settings_title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update_available_title.
+        /// </summary>
+        internal static string update_available_title {
+            get {
+                return ResourceManager.GetString("update_available_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update_balloon_body.
+        /// </summary>
+        internal static string update_balloon_body {
+            get {
+                return ResourceManager.GetString("update_balloon_body", resourceCulture);
+            }
+        }
     }
 }

@@ -132,4 +132,10 @@
   <data name="page_settings_title" xml:space="preserve">
     <value>Cài đặt</value>
   </data>
+  <data name="update_available_title" xml:space="preserve">
+    <value>Có bản cập nhật mới</value>
+  </data>
+  <data name="update_balloon_body" xml:space="preserve">
+    <value>đã sẵn sàng. Nhấn để tải về.</value>
+  </data>
 </root>
