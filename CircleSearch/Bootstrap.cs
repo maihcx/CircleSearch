@@ -100,6 +100,11 @@
                                 break;
 
                             case "OnGoSettings":
+                            case "OnGoSettings--UPDATE":
+                                if (value == "OnGoSettings--UPDATE")
+                                {
+                                    SharedMem.IsScrollToUpdateCard = true;
+                                }
                                 NavigationHandle.NavigationService.Navigate(typeof(SettingsPage));
                                 break;
                         }

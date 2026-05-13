@@ -19,6 +19,13 @@
             AppRuntime.ThemeManagerService = ThemeManagerService;
             ThemeManagerService.InitCornerRadius();
             ThemeManagerService.Watch();
+
+            TrayIcon.BalloonTipClicked += TrayIcon_BalloonTipClicked;
+        }
+
+        private void TrayIcon_BalloonTipClicked([System.Diagnostics.CodeAnalysis.NotNull] Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
+        {
+            AppRuntime.CoreService.Send("tray-event", "OnGoSettings--UPDATE");
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -36,6 +43,14 @@
         {
             AppRuntime.CoreService.StartApp();
             AppRuntime.CoreService.Send("state", "start");
+        }
+
+        public void ShowUpdateBalloon(string version)
+        {
+            string title = LocalizationHelper.GetLang("update_available_title");
+            string body = $"CircleSearch {version} {LocalizationHelper.GetLang("update_balloon_body")}";
+
+            TrayIcon.ShowBalloonTip(5000, title, body, Wpf.Ui.Tray.Controls.ToolTipIcon.Warning);
         }
 
         protected override void OnClosing(CancelEventArgs e)
