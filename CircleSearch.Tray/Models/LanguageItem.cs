@@ -2,13 +2,13 @@
 {
     public class LanguageItem
     {
-        public string Code { get; set; }
-        public string NativeName { get; set; }
-        public string EnglishName { get; set; }
+        public string Code { get; set; } = string.Empty;
+        public string NativeName { get; set; } = string.Empty;
+        public string EnglishName { get; set; } = string.Empty;
 
         public override string ToString() => NativeName;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is LanguageItem other && this.Code == other.Code;
         }

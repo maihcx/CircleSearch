@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindow,
                                  IsDesignTimeCreatable=True}"
-        Title="CircleSearch.Tray"
+        Title="CircleSearch Tray"
         Width="0" Height="0"
         ShowInTaskbar="False"
         Background="Transparent"

@@ -151,7 +151,7 @@
             }
         }
 
-        public void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        public void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs? e)
         {
             double size_width = this.Width;
             if (size_width < 900 && RootNavigation.IsPaneOpen)

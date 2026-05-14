@@ -30,7 +30,7 @@ public partial class OverlayWindow : Window
     // ── Constructor ────────────────────────────────────────────────────────────
     public OverlayWindow()
     {
-        _config = AppRuntime.overlayConfig;
+        _config = AppRuntime.overlayConfig ?? new OverlayConfig();
         InitializeComponent();
 
         TryApplyAccentColor(_config.AccentColor);

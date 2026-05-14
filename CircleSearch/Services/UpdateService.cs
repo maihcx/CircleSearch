@@ -152,7 +152,7 @@ namespace CircleSearch.Services
         /// </summary>
         public void LaunchInstaller()
         {
-            if (ConfluxManager.cfsCircleSearchCore.IsAppStarted())
+            if (ConfluxManager.cfsCircleSearchCore!.IsAppStarted())
             {
                 ConfluxManager.cfsCircleSearchCore.Send("main-event", "OnAppExit");
             }

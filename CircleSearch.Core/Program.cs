@@ -1,6 +1,6 @@
 ﻿class Program
 {
-    public static Bootstrap bootstrap;
+    public static Bootstrap? bootstrap;
 
     static void Main()
     {
@@ -13,11 +13,11 @@
 
     private static void OnStated()
     {
-        bootstrap.OnStarted();
+        bootstrap?.OnStarted();
     }
 
     public static void OnClosed()
     {
-        bootstrap.OnStopped();
+        bootstrap?.OnStopped();
     }
 }

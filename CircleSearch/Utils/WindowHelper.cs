@@ -2,14 +2,14 @@
 {
     public static class WindowHelper
     {
-        public static ApplicationThemeManagerService ThemeManagerService;
+        public static ApplicationThemeManagerService? ThemeManagerService;
 
-        public static Window MainWindow;
+        public static Window? MainWindow;
 
-        public static SnackbarService GlobalSnackbar;
+        public static SnackbarService? GlobalSnackbar;
 
         public delegate void AutoHideNavPanelChanged(bool state);
-        public static event AutoHideNavPanelChanged OnAutoHideNavChanged;
+        public static event AutoHideNavPanelChanged? OnAutoHideNavChanged;
 
 
         [DllImport("user32.dll")]

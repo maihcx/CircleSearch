@@ -6,7 +6,7 @@
         private static Mutex? _mutex;
         private static string UniqueAppId = @"Global\CircleSearch.SingleInstance.App";
         private static bool _isPrimaryInstance = false;
-        private static SplashScreen SplashScreen;
+        private static SplashScreen? SplashScreen;
 
         public static bool IsViewAtBoot { get; set; }
         public static bool IsEndService { get; set; }
@@ -55,7 +55,7 @@
             #region Core initialization
             ConfluxService cfsCircleSearchCore = new();
             cfsCircleSearchCore.CreateNoWindow = true;
-            cfsCircleSearchCore.Register("CircleSearch.Core.exe", "CircleSearch.MainToCore", "CircleSearch.CoreToMain");
+            cfsCircleSearchCore.Register("CircleSearch Core.exe", "CircleSearch.MainToCore", "CircleSearch.CoreToMain");
 
             IsViewAtBoot = cfsCircleSearchCore.IsAppStarted();
 
@@ -92,11 +92,11 @@
                         switch (value)
                         {
                             case "OnGoHome":
-                                NavigationHandle.NavigationService.Navigate(typeof(HomePage));
+                                NavigationHandle.NavigationService?.Navigate(typeof(HomePage));
                                 break;
 
                             case "OnGoConfig":
-                                NavigationHandle.NavigationService.Navigate(typeof(ConfigPage));
+                                NavigationHandle.NavigationService?.Navigate(typeof(ConfigPage));
                                 break;
 
                             case "OnGoSettings":
@@ -105,7 +105,7 @@
                                 {
                                     SharedMem.IsScrollToUpdateCard = true;
                                 }
-                                NavigationHandle.NavigationService.Navigate(typeof(SettingsPage));
+                                NavigationHandle.NavigationService?.Navigate(typeof(SettingsPage));
                                 break;
                         }
                     }
@@ -155,7 +155,7 @@
                             });
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         Thread.Sleep(100);
                     }
@@ -170,10 +170,10 @@
         {
             StartupManager.RefreshStartWithWin();
 
-            SharedMem.Launcher.SendHotkey(SharedMem.AppSettings);
-            SharedMem.Launcher.SendConfig(SharedMem.AppSettings);
+            SharedMem.Launcher?.SendHotkey(SharedMem.AppSettings ?? new LauncherSettings());
+            SharedMem.Launcher?.SendConfig(SharedMem.AppSettings ?? new LauncherSettings());
 
-            SplashScreen.Close(new TimeSpan(0, 0, 0, 0, 0));
+            SplashScreen?.Close(new TimeSpan(0, 0, 0, 0, 0));
 
             #region Handle for VAB Off
             if (!IsViewAtBoot)

@@ -35,7 +35,7 @@
 
             LanguageBase.LanguageChanged += (lang) =>
             {
-                ConfluxManager.cfsCircleSearchCore.Send("main-event", "OnLanguageChanged");
+                ConfluxManager.cfsCircleSearchCore?.Send("main-event", "OnLanguageChanged");
             };
         }
     }
