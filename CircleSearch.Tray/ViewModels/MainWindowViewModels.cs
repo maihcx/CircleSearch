@@ -47,6 +47,7 @@ namespace CircleSearch.Tray.ViewModels
                                 TranslationSource.Instance.CurrentCulture = LanguageBase.GetSetupLanguage();
                                 // Rebuild menu, giữ lại item update nếu đang có
                                 createTrayIcons(hasUpdate: _updateUrl != null);
+                                _ = CheckUpdateAfterDelayAsync(TimeSpan.FromSeconds(0));
                                 break;
 
                             case "OnRadiusChanged":
