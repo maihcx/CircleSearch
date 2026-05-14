@@ -2,8 +2,6 @@
 {
     public static class ConfluxManager
     {
-        public static ConfluxService cfsCircleSearchTray;
-
-        public static ConfluxService cfsCircleSearchCore;
+        public static ConfluxService? cfsCircleSearchCore;
     }
 }

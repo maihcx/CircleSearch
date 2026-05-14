@@ -9,7 +9,7 @@ namespace CircleSearch.ViewModels.PagesBottom
 
         public event Action? ScrollToUpdateRequested;
 
-        private static ApplicationThemeManagerService ThemeManagerService = WindowHelper.ThemeManagerService;
+        private static ApplicationThemeManagerService? ThemeManagerService = WindowHelper.ThemeManagerService;
 
         private readonly UpdateService _updateService = new();
         private CancellationTokenSource? _updateCts;
@@ -56,47 +56,47 @@ namespace CircleSearch.ViewModels.PagesBottom
 
         partial void OnSelectedLanguageChanged(LanguageItem value)
         {
-            LanguageBase.SetLanguage(value.Code);
+            LanguageBase.SetLanguage(value.Code ?? "en");
         }
         #endregion
 
         #region Theme list handle
         [ObservableProperty]
-        private Models.ComboBoxItem _selectedTheme = ThemeManagerService.GetThemeCBBSelected();
+        private Models.ComboBoxItem? _selectedTheme = ThemeManagerService?.GetThemeCBBSelected();
 
         [ObservableProperty]
-        private ObservableCollection<Models.ComboBoxItem> _themeList = ThemeManagerService.GetThemeCBBs();
+        private ObservableCollection<Models.ComboBoxItem>? _themeList = ThemeManagerService?.GetThemeCBBs();
 
-        partial void OnSelectedThemeChanged(Models.ComboBoxItem value)
+        partial void OnSelectedThemeChanged(Models.ComboBoxItem? value)
         {
-            ThemeManagerService.SetApplicationTheme(Enum.Parse<IThemeType>(value.Value));
-            ConfluxManager.cfsCircleSearchCore.Send("main-event", "OnThemeChanged");
+            ThemeManagerService?.SetApplicationTheme(Enum.Parse<IThemeType>(value?.Value ?? "Mica"));
+            ConfluxManager.cfsCircleSearchCore?.Send("main-event", "OnThemeChanged");
         }
         #endregion
 
         #region Material list handle
         [ObservableProperty]
-        private Models.ComboBoxItem _selectedMaterial = ThemeManagerService.GetMaterialCBBSelected();
+        private Models.ComboBoxItem? _selectedMaterial = ThemeManagerService?.GetMaterialCBBSelected();
 
         [ObservableProperty]
-        private ObservableCollection<Models.ComboBoxItem> _materialList = ThemeManagerService.GetMaterialCBBs();
+        private ObservableCollection<Models.ComboBoxItem>? _materialList = ThemeManagerService?.GetMaterialCBBs();
 
-        partial void OnSelectedMaterialChanged(Models.ComboBoxItem value)
+        partial void OnSelectedMaterialChanged(Models.ComboBoxItem? value)
         {
-            ThemeManagerService.SetBackdropType(Enum.Parse<WindowBackdropType>(value.Value));
-            ThemeManagerService.SetApplicationTheme(Enum.Parse<IThemeType>(SelectedTheme.Value));
-            ConfluxManager.cfsCircleSearchCore.Send("main-event", "OnMaterialChanged");
+            ThemeManagerService?.SetBackdropType(Enum.Parse<WindowBackdropType>(value?.Value ?? "Mica"));
+            ThemeManagerService?.SetApplicationTheme(Enum.Parse<IThemeType>(SelectedTheme?.Value ?? "Auto"));
+            ConfluxManager.cfsCircleSearchCore?.Send("main-event", "OnMaterialChanged");
         }
         #endregion
 
         #region CornerRadius list handle
         [ObservableProperty]
-        private int _sliderCornerRadius = ThemeManagerService.GlobalCornerRadius;
+        private int _sliderCornerRadius = ThemeManagerService?.GlobalCornerRadius ?? 0;
 
         partial void OnSliderCornerRadiusChanged(int oldValue, int newValue)
         {
-            ThemeManagerService.GlobalCornerRadius = newValue;
-            ConfluxManager.cfsCircleSearchCore.Send("main-event", "OnRadiusChanged");
+            ThemeManagerService?.GlobalCornerRadius = newValue;
+            ConfluxManager.cfsCircleSearchCore?.Send("main-event", "OnRadiusChanged");
         }
         #endregion
 

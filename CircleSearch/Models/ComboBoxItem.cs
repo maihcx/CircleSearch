@@ -8,7 +8,7 @@
 
         public override string ToString() => Content;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ComboBoxItem other && this.Value == other.Value;
         }

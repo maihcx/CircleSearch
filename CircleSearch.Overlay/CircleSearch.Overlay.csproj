@@ -18,6 +18,7 @@
     <FileVersion>0.2.0.0</FileVersion>
 
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<AssemblyName>CircleSearch Overlay</AssemblyName>
     <!--<PublishSingleFile>true</PublishSingleFile>
     <SelfContained>false</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->

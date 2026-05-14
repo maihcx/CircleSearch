@@ -1,4 +1,3 @@
-using CircleSearch.Installer.ViewModels;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
@@ -25,17 +24,7 @@ namespace CircleSearch.Installer.Services
         {
             ct.ThrowIfCancellationRequested();
 
-            await Task.Run(() =>
-            {
-                foreach (var p in Process.GetProcessesByName("CircleSearch"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-                foreach (var p in Process.GetProcessesByName("CircleSearch.Tray"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-                foreach (var p in Process.GetProcessesByName("CircleSearch.Core"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-                foreach (var p in Process.GetProcessesByName("CircleSearch.Overlay"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-            }, ct);
+            await KillAllService(ct);
 
             await Task.Delay(800, ct);
 
@@ -135,17 +124,7 @@ namespace CircleSearch.Installer.Services
         {
             ct.ThrowIfCancellationRequested();
 
-            await Task.Run(() =>
-            {
-                foreach (var p in Process.GetProcessesByName("CircleSearch"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-                foreach (var p in Process.GetProcessesByName("CircleSearch.Tray"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-                foreach (var p in Process.GetProcessesByName("CircleSearch.Core"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-                foreach (var p in Process.GetProcessesByName("CircleSearch.Overlay"))
-                    try { p.Kill(entireProcessTree: true); } catch { }
-            }, ct);
+            await KillAllService(ct);
 
             await Task.Delay(800, ct);
 
@@ -284,6 +263,21 @@ namespace CircleSearch.Installer.Services
                 key.SetValue("CircleSearch", $"\"{exePath}\"");
             else
                 key.DeleteValue("CircleSearch", throwOnMissingValue: false);
+        }
+
+        private static async Task KillAllService(CancellationToken ct)
+        {
+            await Task.Run(() =>
+            {
+                foreach (var p in Process.GetProcessesByName("CircleSearch"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+                foreach (var p in Process.GetProcessesByName("CircleSearch Tray"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+                foreach (var p in Process.GetProcessesByName("CircleSearch Core"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+                foreach (var p in Process.GetProcessesByName("CircleSearch Overlay"))
+                    try { p.Kill(entireProcessTree: true); } catch { }
+            }, ct);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace CircleSearch.Models;
 
 public class NavigationCard : INotifyPropertyChanged
 {
-    private string _nameKey;
-    private string _descriptionKey;
+    private string _nameKey = string.Empty;
+    private string _descriptionKey = string.Empty;
 
     public string NameKey
     {
@@ -44,9 +44,9 @@ public class NavigationCard : INotifyPropertyChanged
 
     public SymbolRegular Icon { get; init; }
 
-    public Type PageType { get; init; }
+    public Type? PageType { get; init; } = null;
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public NavigationCard()
     {
@@ -57,7 +57,7 @@ public class NavigationCard : INotifyPropertyChanged
         };
     }
 
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

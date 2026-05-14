@@ -21,12 +21,12 @@
 
         private static void HandleTrayConfigChange(string name, string value)
         {
-            AppRuntime.cfsTray.Send(name, value);
+            AppRuntime.cfsTray?.Send(name, value);
         }
 
         private static void HandleMainConfigChange(string name, string value)
         {
-            if (!AppRuntime.cfsMain.IsAppStarted())
+            if (!AppRuntime.cfsMain!.IsAppStarted())
             {
                 AppRuntime.cfsMain.StartApp();
             }
@@ -37,7 +37,7 @@
         {
             if (value == "shutdown")
             {
-                if (AppRuntime.cfsMain.IsAppStarted()) {
+                if (AppRuntime.cfsMain!.IsAppStarted()) {
                     AppRuntime.cfsMain.Send("state", value);
                 }
 

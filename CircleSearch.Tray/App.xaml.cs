@@ -11,7 +11,7 @@ namespace CircleSearch.Tray
         private string logFile;
         public App()
         {
-            string appPath = Environment.ProcessPath;
+            string? appPath = Environment.ProcessPath;
             if (string.IsNullOrEmpty(appPath))
             {
                 appPath = AppDomain.CurrentDomain.BaseDirectory;

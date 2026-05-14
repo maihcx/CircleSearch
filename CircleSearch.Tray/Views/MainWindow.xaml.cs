@@ -25,7 +25,7 @@
 
         private void TrayIcon_BalloonTipClick([System.Diagnostics.CodeAnalysis.NotNull] Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
         {
-            AppRuntime.CoreService.Send("tray-event", "OnGoSettings--UPDATE");
+            AppRuntime.CoreService?.Send("tray-event", "OnGoSettings--UPDATE");
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -41,8 +41,8 @@
 
         private void NotifyIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
         {
-            AppRuntime.CoreService.StartApp();
-            AppRuntime.CoreService.Send("state", "start");
+            AppRuntime.CoreService?.StartApp();
+            AppRuntime.CoreService?.Send("state", "start");
         }
 
         public void ShowUpdateBalloon(string version)
@@ -55,7 +55,7 @@
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (AppRuntime.CoreService.IsAppStarted())
+            if (AppRuntime.CoreService!.IsAppStarted())
             {
                 AppRuntime.CoreService.Send("core-svc-state", "shutdown");
             }

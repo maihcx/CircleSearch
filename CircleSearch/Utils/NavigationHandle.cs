@@ -2,7 +2,7 @@
 {
     public static class NavigationHandle
     {
-        public static INavigationService NavigationService;
+        public static INavigationService? NavigationService;
 
         public static ObservableCollection<object> GetNavCardsInNamespace(string @namespace)
         {
@@ -13,7 +13,7 @@
                         .Where(t => t.IsClass &&
                                     t.IsSubclassOf(typeof(Page)) &&
                                     t.Namespace == @namespace)
-                        .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>().SortIndex);
+                        .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>()?.SortIndex);
 
             foreach (var pageType in pages)
             {
@@ -26,7 +26,7 @@
                         Icon = new SymbolIcon { Symbol = attr?.Icon ?? SymbolRegular.Document24 },
                         TargetPageType = pageType
                     };
-                    NavViewItem.SetBinding(NavigationViewItem.ContentProperty, new LocalizationExtension(attr.DisplayNameKey));
+                    NavViewItem.SetBinding(NavigationViewItem.ContentProperty, new LocalizationExtension(attr?.DisplayNameKey ?? string.Empty));
                     var childPage = GetNavCardsInNamespace($"{pageType.FullName}s");
                     if (childPage.Count > 0)
                     {
@@ -72,7 +72,7 @@
 
             var pageTypes = assembly.GetTypes()
                 .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Page)) && t.Namespace == pageNamespace)
-                .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>().SortIndex);
+                .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>()?.SortIndex);
 
             foreach (var pageType in pageTypes)
             {
@@ -94,7 +94,7 @@
                         .Where(t => t.IsClass &&
                                     t.IsSubclassOf(typeof(Page)) &&
                                     t.Namespace == @namespace)
-                        .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>().SortIndex);
+                        .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>()?.SortIndex);
 
             foreach (var pageType in pages)
             {
@@ -112,7 +112,7 @@
             }
         }
 
-        public static ICollection<NavigationCard> GetNavigationCards(string[] @namespace, Type excludePageType = null)
+        public static ICollection<NavigationCard> GetNavigationCards(string[] @namespace, Type? excludePageType = null)
         {
             return new ObservableCollection<NavigationCard>(
                 Assembly.GetExecutingAssembly()
@@ -121,7 +121,7 @@
                                     t.IsSubclassOf(typeof(Page)) &&
                                     @namespace.Contains(t.Namespace) &&
                                     (excludePageType == null || t != excludePageType))
-                        .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>().SortIndex)
+                        .OrderBy(t => t.GetCustomAttribute<PageMetaAttribute>()?.SortIndex)
                         .Select(pageType =>
                         {
                             var attr = pageType.GetCustomAttribute<PageMetaAttribute>();

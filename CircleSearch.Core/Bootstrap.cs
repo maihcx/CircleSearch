@@ -22,13 +22,13 @@
 
             cfsMain.OnMessageReceived += CFSCommandHandler.Handle;
 
-            cfsMain.StartServiceAsync();
+            cfsMain?.StartServiceAsync();
             #endregion
 
             #region Initialize ConfluxService for Tray Process
             ConfluxService cfsTray = new();
 
-            cfsTray.Register("CircleSearch.Tray.exe", "CircleSearch.CoreToTray", "CircleSearch.TrayToCore");
+            cfsTray.Register("CircleSearch Tray.exe", "CircleSearch.CoreToTray", "CircleSearch.TrayToCore");
             AppRuntime.cfsTray = cfsTray;
 
             cfsTray.OnMessageReceiving += CFSIncomingHandler.Handle;
@@ -43,7 +43,7 @@
 
         public void OnStopped()
         {
-            AppRuntime.hotkeyService.Dispose();
+            AppRuntime.hotkeyService?.Dispose();
         }
     }
 }

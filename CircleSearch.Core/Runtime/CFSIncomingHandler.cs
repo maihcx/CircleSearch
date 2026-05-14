@@ -6,7 +6,7 @@
 
         public static void Handle(string name, string value)
         {
-            currentMsgReceiving.TryGetValue(name, out string currMsgReceiving);
+            currentMsgReceiving.TryGetValue(name, out string? currMsgReceiving);
             if (currMsgReceiving == value)
                 return;
 
@@ -44,8 +44,8 @@
             for (int i = 0; i < args.Length - 1; i++)
                 if (args[i] == "--vk" && uint.TryParse(args[i + 1], out var v)) vk = v;
 
-            AppRuntime.hotkeyService.Unregister();
-            AppRuntime.hotkeyService.Register(ctrl, win, alt, shift, vk);
+            AppRuntime.hotkeyService?.Unregister();
+            AppRuntime.hotkeyService?.Register(ctrl, win, alt, shift, vk);
         }
     }
 }

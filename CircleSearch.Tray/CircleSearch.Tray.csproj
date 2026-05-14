@@ -13,6 +13,7 @@
     <FileVersion>0.2.0.0</FileVersion>
 
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<AssemblyName>CircleSearch Tray</AssemblyName>
 	<!--<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	<PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>false</SelfContained>

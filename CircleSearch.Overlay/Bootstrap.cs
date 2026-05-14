@@ -4,8 +4,6 @@
     {
         App Instance;
 
-        private OverlayProcessService? overlayService;
-
         public Bootstrap(string[] args, App Instance)
         {
             this.Instance = Instance;
@@ -19,7 +17,7 @@
 
         public void OnStopped()
         {
-            overlayService?.Dispose();
+
         }
 
         private void StartOverlayMode()
