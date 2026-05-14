@@ -20,10 +20,10 @@
             ThemeManagerService.InitCornerRadius();
             ThemeManagerService.Watch();
 
-            TrayIcon.BalloonTipClicked += TrayIcon_BalloonTipClicked;
+            TrayIcon.BalloonTipClick += TrayIcon_BalloonTipClick;
         }
 
-        private void TrayIcon_BalloonTipClicked([System.Diagnostics.CodeAnalysis.NotNull] Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
+        private void TrayIcon_BalloonTipClick([System.Diagnostics.CodeAnalysis.NotNull] Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
         {
             AppRuntime.CoreService.Send("tray-event", "OnGoSettings--UPDATE");
         }
