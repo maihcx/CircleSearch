@@ -1,3 +1,17 @@
+## v0.3.1
+
+## 🚀 Changelog
+## 🐛 Bug Fixes
+
+- Trigger update check on Language change (#34) — @maihcx
+
+## 🧹 Maintenance
+
+- Rename tray balloon event and update WPF-UI libs (#33) — @maihcx
+
+
+---
+
 ## v0.3.0
 
 ## 🚀 Changelog
