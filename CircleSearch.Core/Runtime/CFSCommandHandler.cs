@@ -41,8 +41,7 @@
                     AppRuntime.cfsMain.Send("state", value);
                 }
 
-                Program.OnClosed();
-                Environment.Exit(0);
+                AppRuntime.bootstrap?.Shutdown();
             }
         }
     }

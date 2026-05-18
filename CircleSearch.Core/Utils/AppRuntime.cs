@@ -6,6 +6,8 @@
 
         public static ConfluxService? cfsTray { get; set; }
 
+        public static Bootstrap? bootstrap { get; set; }
+
         public static GlobalHotkeyService? hotkeyService;
         public static string OverlayConfig = string.Empty;
 
