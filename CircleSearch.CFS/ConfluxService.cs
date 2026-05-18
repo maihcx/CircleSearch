@@ -125,33 +125,7 @@ namespace CircleSearch.CFS
             }
 
             _cts = new CancellationTokenSource();
-            _serviceTask = Task.Run(() => RunPipeServer(_cts.Token));
-        }
-
-        public Task StartService()
-        {
-            using var server = new NamedPipeServerStream(PipeGet, PipeDirection.In);
-
-            while (true)
-            {
-                server.WaitForConnection();
-
-                byte[] buffer = new byte[4096];
-                int bytesRead = server.Read(buffer, 0, buffer.Length);
-                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-                var parts = message.Split('|', 2);
-                string paramName = parts[0];
-                string paramValue = parts.Length > 1 ? parts[1] : "";
-
-                OnMessageReceiving?.Invoke(paramName, paramValue);
-
-                SendBitOK();
-
-                OnMessageReceived?.Invoke(paramName, paramValue);
-
-                server.Disconnect();
-            }
+            _serviceTask = RunPipeServer(_cts.Token);
         }
 
         public async Task StopServiceAsync()
