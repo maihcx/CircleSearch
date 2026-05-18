@@ -50,8 +50,8 @@ namespace CircleSearch.ViewModels.Pages
 
         public ConfigViewModel()
         {
-            _settings = SharedMem.AppSettings;
-            _launcher = SharedMem.Launcher;
+            _settings = SharedMem.AppSettings ?? new LauncherSettings();
+            _launcher = SharedMem.Launcher ?? new OverlayLauncherService();
             LoadFromSettings();
             IsDaemonRunning = _launcher.IsDaemonRunning;
             StatusMessage   = IsDaemonRunning
@@ -86,11 +86,11 @@ namespace CircleSearch.ViewModels.Pages
             HotkeyDisplay = string.Join(" + ", parts);
         }
 
-        partial void OnCtrlKeyChanged(bool _) => UpdateHotkeyDisplay();
-        partial void OnWinKeyChanged(bool _) => UpdateHotkeyDisplay();
-        partial void OnAltKeyChanged(bool _) => UpdateHotkeyDisplay();
-        partial void OnShiftKeyChanged(bool _) => UpdateHotkeyDisplay();
-        partial void OnSelectedKeyChanged(string _) => UpdateHotkeyDisplay();
+        partial void OnCtrlKeyChanged(bool value) => UpdateHotkeyDisplay();
+        partial void OnWinKeyChanged(bool value) => UpdateHotkeyDisplay();
+        partial void OnAltKeyChanged(bool value) => UpdateHotkeyDisplay();
+        partial void OnShiftKeyChanged(bool value) => UpdateHotkeyDisplay();
+        partial void OnSelectedKeyChanged(string value) => UpdateHotkeyDisplay();
 
         [RelayCommand]
         private void SaveSettings()

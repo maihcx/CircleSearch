@@ -1,23 +1,23 @@
-﻿class Program
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace CircleSearch.Core
 {
-    public static Bootstrap bootstrap;
-
-    static void Main()
+    internal class Program
     {
-        bootstrap = new Bootstrap();
+        static async Task Main(string[] args)
+        {
+            using IHost host = Host
+                .CreateDefaultBuilder(args)
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton<Bootstrap>();
 
-        OnStated();
+                    services.AddHostedService<CoreBackgroundService>();
+                })
+                .Build();
 
-        OnClosed();
-    }
-
-    private static void OnStated()
-    {
-        bootstrap.OnStarted();
-    }
-
-    public static void OnClosed()
-    {
-        bootstrap.OnStopped();
+            await host.RunAsync();
+        }
     }
 }

@@ -10,10 +10,9 @@ namespace CircleSearch.Tray.ViewModels
         private string _applicationTitle = "CircleSearch";
 
         [ObservableProperty]
-        private ObservableCollection<MenuItem> _trayMenuItems;
+        private ObservableCollection<MenuItem>? _trayMenuItems;
 
-        private ConfluxService MainService;
-        private ConfluxService CoreService;
+        private ConfluxService? CoreService;
 
         private string? _updateUrl;
 
@@ -33,7 +32,7 @@ namespace CircleSearch.Tray.ViewModels
 
             CoreService = new ConfluxService();
             CoreService.CreateNoWindow = true;
-            CoreService.Register("CircleSearch.Core.exe", "CircleSearch.TrayToCore", "CircleSearch.CoreToTray");
+            CoreService.Register("CircleSearch Core.exe", "CircleSearch.TrayToCore", "CircleSearch.CoreToTray");
 
             CoreService.OnMessageReceived += (name, value) =>
             {
@@ -57,13 +56,13 @@ namespace CircleSearch.Tray.ViewModels
 
                             case "OnMaterialChanged":
                                 UserDataStore.Reload();
-                                AppRuntime.ThemeManagerService.SetBackdropType(Enum.Parse<WindowBackdropType>(AppRuntime.ThemeManagerService.GetMaterialCBBSelected().Value));
-                                AppRuntime.ThemeManagerService.SetApplicationTheme(Enum.Parse<ThemeConfigs.IThemeType>(AppRuntime.ThemeManagerService.GetThemeCBBSelected().Value));
+                                AppRuntime.ThemeManagerService?.SetBackdropType(Enum.Parse<WindowBackdropType>(AppRuntime.ThemeManagerService.GetMaterialCBBSelected()?.Value ?? "Mica"));
+                                AppRuntime.ThemeManagerService?.SetApplicationTheme(Enum.Parse<ThemeConfigs.IThemeType>(AppRuntime.ThemeManagerService.GetThemeCBBSelected()?.Value ?? "Auto"));
                                 break;
 
                             case "OnThemeChanged":
                                 UserDataStore.Reload();
-                                AppRuntime.ThemeManagerService.SetApplicationTheme(Enum.Parse<ThemeConfigs.IThemeType>(AppRuntime.ThemeManagerService.GetThemeCBBSelected().Value));
+                                AppRuntime.ThemeManagerService?.SetApplicationTheme(Enum.Parse<ThemeConfigs.IThemeType>(AppRuntime.ThemeManagerService.GetThemeCBBSelected()?.Value ?? "Auto"));
                                 break;
 
                             case "OnAppExit":
@@ -114,24 +113,24 @@ namespace CircleSearch.Tray.ViewModels
             switch (tag)
             {
                 case "tray_open":
-                    CoreService.StartApp();
-                    CoreService.Send("state", "start");
+                    CoreService?.StartApp();
+                    CoreService?.Send("state", "start");
                     break;
                 case "tray_home":
-                    CoreService.StartApp();
-                    CoreService.Send("tray-event", "OnGoHome");
+                    CoreService?.StartApp();
+                    CoreService?.Send("tray-event", "OnGoHome");
                     break;
                 case "tray_config":
-                    CoreService.StartApp();
-                    CoreService.Send("tray-event", "OnGoConfig");
+                    CoreService?.StartApp();
+                    CoreService?.Send("tray-event", "OnGoConfig");
                     break;
                 case "tray_settings":
-                    CoreService.StartApp();
-                    CoreService.Send("tray-event", "OnGoSettings");
+                    CoreService?.StartApp();
+                    CoreService?.Send("tray-event", "OnGoSettings");
                     break;
                 case "tray_update":
-                    CoreService.StartApp();
-                    CoreService.Send("tray-event", "OnGoSettings--UPDATE");
+                    CoreService?.StartApp();
+                    CoreService?.Send("tray-event", "OnGoSettings--UPDATE");
                     break;
                 case "tray_close":
                     Application.Current.Shutdown();

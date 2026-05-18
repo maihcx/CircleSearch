@@ -12,7 +12,7 @@
 
         public delegate void ThemeChangedHandle(ThemeType theme);
 
-        public event ThemeChangedHandle OnThemeChanged;
+        public event ThemeChangedHandle? OnThemeChanged;
 
         public Window MainWindowHandle { get; private set; }
 
@@ -155,7 +155,7 @@
             );
         }
 
-        public Models.ComboBoxItem GetThemeCBBSelected()
+        public Models.ComboBoxItem? GetThemeCBBSelected()
         {
             return GetThemeCBBs().FirstOrDefault(x => x.Content == GetApplicationTheme().ToString());
         }
@@ -173,7 +173,7 @@
             );
         }
 
-        public Models.ComboBoxItem GetMaterialCBBSelected()
+        public Models.ComboBoxItem? GetMaterialCBBSelected()
         {
             return GetMaterialCBBs().FirstOrDefault(x => x.Content == GetBackdropType().ToString());
         }

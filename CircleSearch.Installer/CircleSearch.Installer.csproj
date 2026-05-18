@@ -30,10 +30,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WPF-UI" Version="3.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Assets\app.ico" />
     <Resource Include="Assets\app-256.png" />
     <None Include="Resources\Locales\String.Designer.cs" />
@@ -46,6 +42,18 @@
     <EmbeddedResource Include="Resources\payload.zip" Condition="Exists('Resources\payload.zip')">
       <LogicalName>CircleSearch.Installer.Resources.payload.zip</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Wpf.Ui">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.Abstractions">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.DependencyInjection">
+      <HintPath>..\WPF-UI.LIB\Wpf.Ui.DependencyInjection.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

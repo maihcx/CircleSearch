@@ -58,9 +58,9 @@ CircleSearch.Installer/
 CircleSearch/           ← project gốc
   publish/              ← output sau khi chạy build.bat gốc
     CircleSearch.exe
-    CircleSearch.Tray.exe
-    CircleSearch.Core.exe
-    CircleSearch.Overlay.exe
+    CircleSearch Tray.exe
+    CircleSearch Core.exe
+    CircleSearch Overlay.exe
   build.bat             ← build gốc
 CircleSearch.Installer/ ← project này
   build.bat             ← build installer

@@ -7,14 +7,14 @@ namespace CircleSearch.Helpers
 {
     internal class BooleanToString : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return bool.Parse(value.ToString());
+            return bool.Parse(value?.ToString() ?? "false");
         }
     }
 }

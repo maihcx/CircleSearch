@@ -1,7 +1,17 @@
-﻿namespace CircleSearch.Core
+﻿using Microsoft.Extensions.Hosting;
+
+namespace CircleSearch.Core
 {
     public class Bootstrap
     {
+        private readonly IHostApplicationLifetime lifetime;
+
+        public Bootstrap(
+            IHostApplicationLifetime lifetime)
+        {
+            this.lifetime = lifetime;
+        }
+
         public void OnStarted()
         {
             AppRuntime.hotkeyService = new GlobalHotkeyService();
@@ -22,13 +32,13 @@
 
             cfsMain.OnMessageReceived += CFSCommandHandler.Handle;
 
-            cfsMain.StartServiceAsync();
+            _ = cfsMain.StartServiceAsync();
             #endregion
 
             #region Initialize ConfluxService for Tray Process
             ConfluxService cfsTray = new();
 
-            cfsTray.Register("CircleSearch.Tray.exe", "CircleSearch.CoreToTray", "CircleSearch.TrayToCore");
+            cfsTray.Register("CircleSearch Tray.exe", "CircleSearch.CoreToTray", "CircleSearch.TrayToCore");
             AppRuntime.cfsTray = cfsTray;
 
             cfsTray.OnMessageReceiving += CFSIncomingHandler.Handle;
@@ -36,14 +46,26 @@
             cfsTray.OnMessageReceived += CFSCommandHandler.Handle;
 
             cfsTray.CreateNoWindow = true;
+
             cfsTray.StartApp();
-            cfsTray.StartService();
+
+            _ = cfsTray.StartServiceAsync();
             #endregion
         }
 
         public void OnStopped()
         {
-            AppRuntime.hotkeyService.Dispose();
+            AppRuntime.hotkeyService?.Dispose();
+            _ = AppRuntime.cfsMain?.StopServiceAsync();
+            AppRuntime.cfsMain = null;
+
+            _ = AppRuntime.cfsTray?.StopServiceAsync();
+            AppRuntime.cfsTray = null;
+        }
+
+        public void Shutdown()
+        {
+            lifetime.StopApplication();
         }
     }
 }

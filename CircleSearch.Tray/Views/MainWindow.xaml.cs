@@ -20,12 +20,12 @@
             ThemeManagerService.InitCornerRadius();
             ThemeManagerService.Watch();
 
-            TrayIcon.BalloonTipClick += TrayIcon_BalloonTipClick;
+            TrayIcon.BalloonTipClicked += TrayIcon_BalloonTipClicked;
         }
 
-        private void TrayIcon_BalloonTipClick([System.Diagnostics.CodeAnalysis.NotNull] Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
+        private void TrayIcon_BalloonTipClicked([System.Diagnostics.CodeAnalysis.NotNull] Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
         {
-            AppRuntime.CoreService.Send("tray-event", "OnGoSettings--UPDATE");
+            AppRuntime.CoreService?.Send("tray-event", "OnGoSettings--UPDATE");
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -41,8 +41,8 @@
 
         private void NotifyIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
         {
-            AppRuntime.CoreService.StartApp();
-            AppRuntime.CoreService.Send("state", "start");
+            AppRuntime.CoreService?.StartApp();
+            AppRuntime.CoreService?.Send("state", "start");
         }
 
         public void ShowUpdateBalloon(string version)
@@ -50,12 +50,12 @@
             string title = LocalizationHelper.GetLang("update_available_title");
             string body = $"CircleSearch {version} {LocalizationHelper.GetLang("update_balloon_body")}";
 
-            TrayIcon.ShowBalloonTip(5000, title, body, Wpf.Ui.Tray.Controls.ToolTipIcon.Warning);
+            TrayIcon.ShowBalloonTip(TimeSpan.FromSeconds(5), title, body, Wpf.Ui.Tray.Controls.ToolTipIcon.Warning);
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (AppRuntime.CoreService.IsAppStarted())
+            if (AppRuntime.CoreService!.IsAppStarted())
             {
                 AppRuntime.CoreService.Send("core-svc-state", "shutdown");
             }

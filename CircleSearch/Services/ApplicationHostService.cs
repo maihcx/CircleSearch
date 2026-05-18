@@ -5,9 +5,9 @@
     /// </summary>
     public class ApplicationHostService : IHostedService
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider? _serviceProvider;
 
-        private INavigationWindow _navigationWindow;
+        private INavigationWindow? _navigationWindow;
 
         public ApplicationHostService(IServiceProvider serviceProvider)
         {
@@ -40,7 +40,7 @@
             if (!Application.Current.Windows.OfType<MainWindow>().Any())
             {
                 _navigationWindow = (
-                    _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
+                    _serviceProvider?.GetService(typeof(INavigationWindow)) as INavigationWindow
                 )!;
                 WindowHelper.BringToFront(App.Current.MainWindow);
                 _navigationWindow!.ShowWindow();

@@ -18,7 +18,7 @@
         private readonly ResourceManager resManager = Resources.Locales.String.ResourceManager;
         private CultureInfo currentCulture = CultureInfo.CurrentUICulture;
 
-        public string this[string key] => resManager.GetString(key, currentCulture);
+        public string this[string key] => resManager.GetString(key, currentCulture) ?? string.Empty;
 
         public CultureInfo CurrentCulture
         {
@@ -32,7 +32,7 @@
                 }
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 
     public static class LanguageBase
@@ -44,7 +44,7 @@
         };
 
         public delegate void LanguageChangedEventHandler(string language);
-        public static event LanguageChangedEventHandler LanguageChanged;
+        public static event LanguageChangedEventHandler? LanguageChanged;
 
         public static ObservableCollection<LanguageItem> GetLanguageItems()
         {

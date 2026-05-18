@@ -16,6 +16,7 @@ namespace CircleSearch.CFS
         public string PipeSendReceive { get; set; } = string.Empty;
         public string PipeGet { get; set; } = string.Empty;
         public string PipeGetReceive { get; set; } = string.Empty;
+        private Process? _currProcess { get; set; }
 
         public bool CreateNoWindow = false;
 
@@ -52,9 +53,24 @@ namespace CircleSearch.CFS
                     Arguments = "--cfx-mode " + argEnvironment,
                     CreateNoWindow = CreateNoWindow
                 };
-                Process.Start(psi);
+                _currProcess = Process.Start(psi);
             }
             catch { }
+        }
+
+        public Process GetProcess()
+        {
+            if (_currProcess != null && !_currProcess.HasExited)
+            {
+                return _currProcess;
+            }
+            var processes = Process.GetProcessesByName(ProcessName);
+            if (processes.Length > 0)
+            {
+                _currProcess = processes[0];
+                return _currProcess;
+            }
+            throw new InvalidOperationException("Application is not running.");
         }
 
         public bool IsAppStarted()
@@ -88,12 +104,11 @@ namespace CircleSearch.CFS
                 }
                 catch (OperationCanceledException)
                 {
-                    // Dừng an toàn
                     break;
                 }
                 catch (IOException)
                 {
-                    // Pipe bị ngắt giữa chừng — bỏ qua và tạo lại vòng mới
+                    
                 }
                 catch (Exception ex)
                 {
@@ -105,36 +120,12 @@ namespace CircleSearch.CFS
         public async Task StartServiceAsync()
         {
             if (_cts != null)
-                return; // Đã chạy rồi
+            {
+                return;
+            }
 
             _cts = new CancellationTokenSource();
-            _serviceTask = Task.Run(() => RunPipeServer(_cts.Token));
-        }
-
-        public Task StartService()
-        {
-            using var server = new NamedPipeServerStream(PipeGet, PipeDirection.In);
-
-            while (true)
-            {
-                server.WaitForConnection();
-
-                byte[] buffer = new byte[4096];
-                int bytesRead = server.Read(buffer, 0, buffer.Length);
-                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-                var parts = message.Split('|', 2);
-                string paramName = parts[0];
-                string paramValue = parts.Length > 1 ? parts[1] : "";
-
-                OnMessageReceiving?.Invoke(paramName, paramValue);
-
-                SendBitOK();
-
-                OnMessageReceived?.Invoke(paramName, paramValue);
-
-                server.Disconnect();
-            }
+            _serviceTask = RunPipeServer(_cts.Token);
         }
 
         public async Task StopServiceAsync()
@@ -153,7 +144,7 @@ namespace CircleSearch.CFS
             }
             catch (OperationCanceledException)
             {
-                // Bị hủy thì không sao
+                
             }
             finally
             {

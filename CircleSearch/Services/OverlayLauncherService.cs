@@ -4,17 +4,17 @@ public class OverlayLauncherService
 {
     public void SendConfig(LauncherSettings settings)
     {
-        ConfluxManager.cfsCircleSearchCore.Send("hotkey-change", BuildHotkeyArgs(settings));
+        ConfluxManager.cfsCircleSearchCore?.Send("hotkey-change", BuildHotkeyArgs(settings));
     }
 
     public void SendHotkey(LauncherSettings settings)
     {
-        ConfluxManager.cfsCircleSearchCore.Send("overlaycfg-change", BuildBaseArgs(settings));
+        ConfluxManager.cfsCircleSearchCore?.Send("overlaycfg-change", BuildBaseArgs(settings));
     }
 
     public void LaunchOnce(LauncherSettings settings)
     {
-        ConfluxManager.cfsCircleSearchCore.Send("start-ocr", "--no-cfg");
+        ConfluxManager.cfsCircleSearchCore?.Send("start-ocr", "--no-cfg");
     }
 
     private string BuildHotkeyArgs(LauncherSettings s)

@@ -2,7 +2,7 @@
 {
     public static class AppInfoHelper
     {
-        public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
+        public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name ?? string.Empty;
         public static string Author = "Song Mai Software";
         public static string SortAuthor = "SM SOFT";
         public static string AuthorCreated = "Created by SM SOFT";
@@ -11,7 +11,7 @@
 
         public static string GetAppPath()
         {
-            string appPath = Environment.ProcessPath;
+            string? appPath = Environment.ProcessPath;
             if (string.IsNullOrEmpty(appPath))
             {
                 appPath = AppDomain.CurrentDomain.BaseDirectory;

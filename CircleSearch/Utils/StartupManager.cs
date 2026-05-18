@@ -6,31 +6,31 @@
 
         public static void SetStartWithWin(bool value)
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryPath, true);
+            RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(RegistryPath, true);
             if (value)
             {
-                registryKey.SetValue(AppInfoHelper.AppName, Process.GetCurrentProcess().MainModule.FileName);
+                registryKey?.SetValue(AppInfoHelper.AppName, Process.GetCurrentProcess()?.MainModule?.FileName ?? string.Empty);
             }
             else
             {
-                registryKey.DeleteValue(AppInfoHelper.AppName, false);
+                registryKey?.DeleteValue(AppInfoHelper.AppName, false);
             }
-            registryKey.Close();
+            registryKey?.Close();
             UserDataStore.SetValue("IsStartAtBoot", value);
         }
 
         public static void RefreshStartWithWin()
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryPath, true);
+            RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(RegistryPath, true);
             if (UserDataStore.GetValue<bool>("IsStartAtBoot"))
             {
-                registryKey.SetValue(AppInfoHelper.AppName, Process.GetCurrentProcess().MainModule.FileName);
+                registryKey?.SetValue(AppInfoHelper.AppName, Process.GetCurrentProcess()?.MainModule?.FileName ?? string.Empty);
             }
             else
             {
-                registryKey.DeleteValue(AppInfoHelper.AppName, false);
+                registryKey?.DeleteValue(AppInfoHelper.AppName, false);
             }
-            registryKey.Close();
+            registryKey?.Close();
         }
     }
 }

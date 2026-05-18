@@ -7,9 +7,9 @@ namespace CircleSearch.Services
 {
     public static class SharedMem
     {
-        public static LauncherSettings AppSettings { get; set; }
+        public static LauncherSettings? AppSettings { get; set; }
 
-        public static OverlayLauncherService Launcher { get; set; }
+        public static OverlayLauncherService? Launcher { get; set; }
 
         private static bool _isScrollToUpdateCard = false;
         public static bool IsScrollToUpdateCard
