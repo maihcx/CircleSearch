@@ -1,3 +1,22 @@
+## v0.3.2
+
+## 🚀 Changelog
+## ⚡ Performance
+
+- Replace WPF-UI NuGet with local DLL refs (#41) — @maihcx
+- Migrate to Generic Host and add background service (#39) — @maihcx
+
+## 🧹 Maintenance
+
+- Update CircleSearch.Core dependencies (#44) — @maihcx
+- Update CircleSearch dependencies (#42) — @maihcx
+- Use RunPipeServer task; remove StartService (#40) — @maihcx
+- Use updated tray balloon API (#37) — @maihcx
+- Improve null-safety and adjust executable names (#36) — @maihcx
+
+
+---
+
 ## v0.3.1
 
 ## 🚀 Changelog
