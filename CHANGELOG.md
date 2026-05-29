@@ -1,3 +1,13 @@
+## v0.3.3
+
+## 🚀 Changelog
+## 🧹 Maintenance
+
+- Improve the image quality of executable files (#46) — @maihcx
+
+
+---
+
 ## v0.3.2
 
 ## 🚀 Changelog
