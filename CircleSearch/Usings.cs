@@ -46,6 +46,7 @@ global using Watcher = Wpf.Ui.Appearance.SystemThemeWatcher;
 global using CircleSearch.CFS;
 global using CircleSearch.Utils;
 global using CircleSearch.Services;
+global using CircleSearch.Services.Contracts;
 global using CircleSearch.Resources;
 global using CircleSearch.ViewModels.Windows;
 global using CircleSearch.ViewModels.Pages;
