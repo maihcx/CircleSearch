@@ -8,10 +8,6 @@
 
         public static ISnackbarService? GlobalSnackbar;
 
-        public delegate void AutoHideNavPanelChanged(bool state);
-        public static event AutoHideNavPanelChanged? OnAutoHideNavChanged;
-
-
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
