@@ -48,20 +48,17 @@
             {
                 services.AddNavigationViewPageProvider();
 
+                services.AddSingleton<NavigationPanelHostService>();
+                services.AddSingleton<IHostedService>(ihsv => ihsv.GetRequiredService<NavigationPanelHostService>());
+
                 services.AddHostedService<ApplicationHostService>();
 
-                // Theme manipulation
-                services.AddSingleton<IThemeService, ThemeService>();
-
-                // TaskBar manipulation
-                services.AddSingleton<ITaskBarService, TaskBarService>();
-
-                // Service containing navigation, same as INavigationWindow... but without window
-                services.AddSingleton<INavigationService, NavigationService>();
-
                 // Main window with navigation
-                services.AddSingleton<INavigationWindow, MainWindow>();
+                services.AddSingleton<IWindow, MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<ISnackbarService, SnackbarService>();
+                services.AddSingleton<WindowsProviderService>();
 
                 NavigationHandle.SetupPageViewModelPairs(services, "CircleSearch.Views.Pages", "CircleSearch.ViewModels.Pages");
                 NavigationHandle.SetupPageViewModelPairs(services, "CircleSearch.Views.PagesBottom", "CircleSearch.ViewModels.PagesBottom");
