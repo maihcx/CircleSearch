@@ -1,3 +1,21 @@
+## v0.3.4
+
+## 🚀 Changelog
+## 🐛 Bug Fixes
+
+- The application suddenly stops when clicking on certain areas (#48) — @maihcx
+
+## ⚡ Performance
+
+- Add NavigationPanelHost, IWindow & window services (#49) — @maihcx
+
+## 🧹 Maintenance
+
+- Remove AutoHideNavPanelChanged delegate/event (#51) — @maihcx
+
+
+---
+
 ## v0.3.3
 
 ## 🚀 Changelog
